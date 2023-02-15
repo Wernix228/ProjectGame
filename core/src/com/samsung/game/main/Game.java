@@ -26,7 +26,7 @@ public class Game extends ApplicationAdapter {
     public void create() {
         keyH = new KeyHandler(0, -200, 4);
         player = new Player(keyH, "textures/player/player.png", 3);
-        map = new Map(50, 50, "maps/map01.txt");
+        map = new Map("maps/map04.txt");
         camera = new OrthographicCamera(1024*2, 576*2); //16*2 9*2 tiles
 //        stuff = new Stuff();
         //Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
@@ -39,6 +39,7 @@ public class Game extends ApplicationAdapter {
 
         setUpCamera();
         keyH.render();
+
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
             map.setMap("map01");
         }else if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)){
@@ -86,6 +87,7 @@ public class Game extends ApplicationAdapter {
         lastTime = currentTime;
 
         if (delta >= 1) {
+
             delta--;
             drawCount++;
         }

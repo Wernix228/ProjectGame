@@ -20,6 +20,10 @@ public class Map extends Entity{
         this.map=map;
         loadMap();
     }
+    public Map(String map) {
+        this.map=map;
+        loadMap();
+    }
 
     public void render() {
 
@@ -43,6 +47,9 @@ public class Map extends Entity{
     private void loadMap() {
         FileHandle file = Gdx.files.internal(map);
         String tils = file.readString().replaceAll(" ", "");
+        worldWidth = (int)Math.sqrt(tils.length());
+        worldHeight = (int)Math.sqrt(tils.length());
+        System.out.println("worldWidth " + worldWidth + " ;  worldHeight " + worldHeight);
         String tiles[] = tils.split("\n");
 
         for (int i = 0; i < worldWidth; i++) {
