@@ -3,6 +3,7 @@ package com.samsung.game.main.world;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.samsung.game.main.KeyHandler;
+import com.samsung.game.main.entity.Player;
 
 import java.awt.Rectangle;
 
@@ -15,11 +16,11 @@ public class Tile {
     private final int defaultSize = 32;
     private final int scale = 2;
     private final int tileSize = defaultSize * scale;
+    private boolean collision = false;
 
     private String sprite;
     private SpriteBatch batch;
     private Texture texture;
-    private boolean collision = false;
 
     public Tile(int x, int y, String sprite) {
         this.worldX = x * tileSize;
@@ -37,6 +38,8 @@ public class Tile {
         texture.dispose();
         batch.dispose();
     }
+    public SpriteBatch getBatch(){return batch;}
+
     private void loadSprite(){
         batch = new SpriteBatch();
         if (Integer.parseInt(sprite) < 10)
@@ -57,13 +60,11 @@ public class Tile {
         batch.end();
     }
 
-    public SpriteBatch getBatch(){return batch;}
+    public int getWorldX() {
+        return worldX;
+    }
 
-    public int getX(){return worldX;}
-    public int getY(){return worldY;}
-    public int getWidth(){return tileSize;}
-    public int getHeight(){return tileSize;}
-    public int getDefaultSize(){return defaultSize;}
-
-    public boolean getCollision() {return collision;}
+    public int getWorldY() {
+        return worldY;
+    }
 }

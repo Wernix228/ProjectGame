@@ -3,8 +3,11 @@ package com.samsung.game.main.world;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
+import com.samsung.game.main.KeyHandler;
+import com.samsung.game.main.entity.Entity;
+import com.samsung.game.main.entity.Player;
 
-public class Map implements Runnable {
+public class Map extends Entity{
 
     private int worldWidth;
     private int worldHeight;
@@ -18,15 +21,11 @@ public class Map implements Runnable {
         loadMap();
     }
 
-    @Override
-    public void run() {
-        render();
-    }
-
     public void render() {
-        for (Tile tile : tiles) {
-            tile.render();
-        }
+
+            for (Tile tile : tiles) {
+                tile.render();
+            }
     }
 
     public void dispose() {
@@ -35,6 +34,11 @@ public class Map implements Runnable {
         }
     }
 
+    public void setMap(String map){
+        clearMap();
+        this.map = "maps/" + map + ".txt";
+        loadMap();
+    }
 
     private void loadMap() {
         FileHandle file = Gdx.files.internal(map);
@@ -49,5 +53,11 @@ public class Map implements Runnable {
             }
         }
     }
-
+    private void clearMap(){
+        tiles.clear();
+    }
+    private boolean canSee(Tile tile){
+//        if (tile.getWorldX())
+        return false;
+    }
 }

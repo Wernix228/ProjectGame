@@ -7,6 +7,9 @@ import com.samsung.game.main.Stuff;
 
 public class Player extends Entity {
 
+    private int playerX;
+    private int playerY;
+
     public Player(KeyHandler keyH, String texture, int scale) {
         this.img = new Texture(texture); // "textures/player/player.png"
         this.batch = new SpriteBatch();
@@ -16,7 +19,11 @@ public class Player extends Entity {
     }
 
     public void render() {
-        draw();
+        playerX = keyH.getX();
+        playerY = keyH.getY();
+        if(KeyHandler.activity){
+            draw();
+        }
     }
 
     public void dispose() {
@@ -24,9 +31,17 @@ public class Player extends Entity {
         img.dispose();
     }
 
-    private void draw() {
+    public void draw() {
         batch.begin();
-        batch.draw(img, keyH.getX(), keyH.getY(), width, height);
+        batch.draw(img, playerX, playerY, width, height);
         batch.end();
+    }
+
+    public int getPlayerX() {
+        return playerX;
+    }
+
+    public int getPlayerY() {
+        return playerY;
     }
 }

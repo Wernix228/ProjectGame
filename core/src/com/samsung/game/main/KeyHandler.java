@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class KeyHandler {
+    public static boolean activity = false;
     private int x;
     private int y;
     private int defaultSpeed;
@@ -25,15 +26,19 @@ public class KeyHandler {
         if (TimeUtils.nanoTime() - lastDropTime > 1000000000) {
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                 y += playerSpeed;
+                activity = true;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.S)) {
                 y -= playerSpeed;
+                activity = true;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.D)) {
                 x += playerSpeed;
+                activity = true;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.A)) {
                 x -= playerSpeed;
+                activity = true;
             }
 
             if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
@@ -44,6 +49,7 @@ public class KeyHandler {
             } else playerSpeed = defaultSpeed;
         }
         if (Gdx.input.isTouched()) {
+            activity = true;
             if (Gdx.input.getX() < 3 * Gdx.graphics.getWidth() / 15.36f && Gdx.input.getX() > 2 * Gdx.graphics.getWidth() / 15.36f && touchLimit()) {
                 x += playerSpeed;
             } else if (Gdx.input.getX() < Gdx.graphics.getWidth() / 15.36f && touchLimit()) {
@@ -65,21 +71,16 @@ public class KeyHandler {
         return y;
     }
 
-    public void setPlayerX(int playerX) {
-        this.x = playerX;
+    public String setMap(){
+        String map = "map01";
+        if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
+            map = "map01";
+        }else if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)){
+            map = "map02";
+        }
+        return map;
     }
 
-    public void setPlayerY(int playerY) {
-        this.y = playerY;
-    }
-
-    public int getPlayerSpeed() {
-        return playerSpeed;
-    }
-
-    public void setPlayerSpeed(int playerSpeed) {
-        this.playerSpeed = playerSpeed;
-    }
     private boolean touchLimit() {
         boolean limitY = false;
         if (Gdx.input.getY() > Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 1.88f && Gdx.input.getX() < Gdx.graphics.getWidth() / 5.12f) {
