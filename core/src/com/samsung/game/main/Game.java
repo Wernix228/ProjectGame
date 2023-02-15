@@ -20,13 +20,19 @@ public class Game extends ApplicationAdapter {
     KeyHandler keyH;
     Player player;
     Map map;
+
+    String platform;
 //    Stuff stuff;
+
+    public Game(String platform){
+        this.platform = platform;
+    }
 
     @Override
     public void create() {
-        keyH = new KeyHandler(0, -200, 4);
+        keyH = new KeyHandler(0, -200, 4,platform);
         player = new Player(keyH, "textures/player/player.png", 3);
-        map = new Map("maps/map04.txt");
+        map = new Map("maps/map02.txt");
         camera = new OrthographicCamera(1024*2, 576*2); //16*2 9*2 tiles
 //        stuff = new Stuff();
         //Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
@@ -49,7 +55,8 @@ public class Game extends ApplicationAdapter {
         }
 
 //        stuff.render(player, camera);
-        map.render();
+            map.render();
+
         player.render();
         showFPS();
 

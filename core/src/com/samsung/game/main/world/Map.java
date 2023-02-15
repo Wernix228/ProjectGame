@@ -7,7 +7,7 @@ import com.samsung.game.main.KeyHandler;
 import com.samsung.game.main.entity.Entity;
 import com.samsung.game.main.entity.Player;
 
-public class Map extends Entity{
+public class Map extends Entity {
 
     private int worldWidth;
     private int worldHeight;
@@ -17,19 +17,20 @@ public class Map extends Entity{
     public Map(int x, int y, String map) {
         this.worldWidth = x;
         this.worldHeight = y;
-        this.map=map;
+        this.map = map;
         loadMap();
     }
+
     public Map(String map) {
-        this.map=map;
+        this.map = map;
         loadMap();
     }
 
     public void render() {
 
-            for (Tile tile : tiles) {
-                tile.render();
-            }
+        for (Tile tile : tiles) {
+            tile.render();
+        }
     }
 
     public void dispose() {
@@ -38,33 +39,35 @@ public class Map extends Entity{
         }
     }
 
-    public void setMap(String map){
+    public void setMap(String map) {
         clearMap();
         this.map = "maps/" + map + ".txt";
         loadMap();
     }
 
+    public boolean canSee(KeyHandler keyH) {
+
+        return false;
+    }
+
     private void loadMap() {
         FileHandle file = Gdx.files.internal(map);
         String tils = file.readString().replaceAll(" ", "");
-        worldWidth = (int)Math.sqrt(tils.length());
-        worldHeight = (int)Math.sqrt(tils.length());
+        worldWidth = (int) Math.sqrt(tils.length());
+        worldHeight = (int) Math.sqrt(tils.length());
         System.out.println("worldWidth " + worldWidth + " ;  worldHeight " + worldHeight);
         String tiles[] = tils.split("\n");
 
         for (int i = 0; i < worldWidth; i++) {
             for (int j = 0; j < worldHeight; j++) {
                 String til = String.valueOf(tiles[j].charAt(i));
-                Tile tile = new Tile(i,-j,til);
+                Tile tile = new Tile(i, -j, til);
                 this.tiles.add(tile);
             }
         }
     }
-    private void clearMap(){
+
+    private void clearMap() {
         tiles.clear();
-    }
-    private boolean canSee(Tile tile){
-//        if (tile.getWorldX())
-        return false;
     }
 }

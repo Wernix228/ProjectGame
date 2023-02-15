@@ -19,6 +19,6 @@ public class DesktopLauncher {
 		config.setForegroundFPS(60);
 		config.setTitle("Game");
 
-		new Lwjgl3Application(new Game(), config);
+		new Lwjgl3Application(new Game("Android"), config);
 	}
 }
