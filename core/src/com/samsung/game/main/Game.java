@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 import com.samsung.game.main.entity.Player;
-import com.samsung.game.main.entity.SolidArea;
 import com.samsung.game.main.world.Map;
 import com.samsung.game.main.world.Tile;
 
@@ -17,7 +16,6 @@ public class Game extends ApplicationAdapter {
     Player player;
     Map map;
 //    SolidArea solidArea;
-    boolean bool = false;
 
     String platform;
 
@@ -28,8 +26,8 @@ public class Game extends ApplicationAdapter {
     @Override
     public void create() {
         keyH = new KeyHandler(0, -200, 8, platform);
-        player = new Player(keyH, "textures/player/playerHeat.png", 4);
-        map = new Map("maps/map01.txt");
+        player = new Player(keyH, "textures/player/playerHeat.png");
+        map = new Map("maps/map100.txt");
         camera = new OrthographicCamera(1024 * 2, 576 * 2); //16*2 9*2 tiles
 //        solidArea = new SolidArea(map.getTile(), player,keyH);
     }
@@ -104,7 +102,7 @@ public class Game extends ApplicationAdapter {
     private void setUpCamera() {
         camera.update();
         player.getBatch().setProjectionMatrix(camera.combined);
-        for (Tile tile : map.tiles) {
+        for (Tile tile : map.getTiles()) {
             tile.getBatch().setProjectionMatrix(camera.combined);
         }
         camera.position.set(new Vector3(keyH.getX() + player.getWidth() / 2f, keyH.getY() + player.getHeight() / 2f, 0));

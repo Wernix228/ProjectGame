@@ -2,7 +2,6 @@ package com.samsung.game.main;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.utils.TimeUtils;
 
 public class KeyHandler {
     public static boolean activity = false;
@@ -12,18 +11,6 @@ public class KeyHandler {
     private int playerSpeed;
     private boolean collLeft = false;
 
-    public int getPlayerSpeed(float v) {
-        return playerSpeed;
-    }
-
-    public void setPlayerSpeed(int playerSpeed) {
-        this.playerSpeed = playerSpeed;
-    }
-
-    private final String platform;
-
-    long time = System.nanoTime();
-
     public KeyHandler(int playerX, int playerY, int playerSpeed,String platform) {
         this.x = playerX;
         this.y = playerY;
@@ -32,13 +19,8 @@ public class KeyHandler {
         this.platform = platform;
     }
 
-    public void setCollLeft(boolean collLeft) {
-        this.collLeft = collLeft;
-    }
-
     public void render() {
         if (platform.equals("Desktop")) {
-            if (TimeUtils.nanoTime() - time > 1000000000) {
                 if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                     y += playerSpeed;
                     activity = true;
@@ -61,7 +43,6 @@ public class KeyHandler {
                 if (boost) {
                     playerSpeed = defaultSpeed * 2;
                 } else playerSpeed = defaultSpeed;
-            }
         }
         if (platform.equals("Android")) {
             if (Gdx.input.isTouched()) {
@@ -88,7 +69,17 @@ public class KeyHandler {
         return y;
     }
 
+    public void setCollLeft(boolean collLeft) {
+        this.collLeft = collLeft;
+    }
+
+    public void setPlayerSpeed(int playerSpeed) {
+        this.playerSpeed = playerSpeed;
+    }
+
     private boolean touchLimit() {
         return Gdx.input.getY() > Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 1.88f && Gdx.input.getX() < Gdx.graphics.getWidth() / 5.12f;
     }
+
+    private final String platform;
 }

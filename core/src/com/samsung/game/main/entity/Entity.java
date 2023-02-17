@@ -6,23 +6,29 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.samsung.game.main.KeyHandler;
 
 public class Entity {
-    KeyHandler keyH;
-    SpriteBatch batch;
-    Texture img;
+    protected KeyHandler keyH;
+    protected SpriteBatch batch;
+    protected Texture img;
 
-    int originalWidth = 32;
-    int originalHeight = 32;
+    protected int originalWidth = 32;
+    protected int originalHeight = 32;
 
-    int scale = 2;
+    protected int scale = 2;
 
-    int width = originalWidth * scale;
-    int height = originalHeight * scale;
+    protected int width = originalWidth * scale;
+    protected int height = originalHeight * scale;
 
-    int x = Gdx.input.getX();
-    int y = Gdx.input.getY();
+    protected int x = Gdx.input.getX();
+    protected int y = Gdx.input.getY();
 
-    public int getWidth(){return width;}
-    public int getHeight(){return height;}
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
     public SpriteBatch getBatch() {
         return batch;
     }

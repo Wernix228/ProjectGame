@@ -24,6 +24,15 @@ public class Tile {
         loadSprite();
     }
 
+    public void draw(int widthScreen, int heightScreen, KeyHandler keyH, Player player) {
+        if(x> (keyH.getX()+player.getWidth()/2)-widthScreen-32 && x< (keyH.getX()+ player.getWidth()/2)+widthScreen &&
+                y> (keyH.getY()+ player.getHeight()/2)-heightScreen-32 && y< (keyH.getY()+ player.getHeight()/2)+heightScreen) {
+            batch.begin();
+            batch.draw(texture, x, y, tileSize, tileSize);
+            batch.end();
+        }
+    }
+
     public void dispose() {
         texture.dispose();
         batch.dispose();
@@ -44,18 +53,9 @@ public class Tile {
     private void loadSprite(){
         batch = new SpriteBatch();
         if (Integer.parseInt(sprite) < 10)
-        texture = new Texture("textures/tiles/00" + sprite + ".png");
+            texture = new Texture("textures/tiles/00" + sprite + ".png");
         else if (Integer.parseInt(sprite) < 100)
             texture = new Texture("textures/tiles/0" + sprite + ".png");
         else texture = new Texture("textures/tiles/" + sprite + ".png");
-    }
-
-    public void draw(int widthScreen, int heightScreen, KeyHandler keyH, Player player) {
-        if(x> (keyH.getX()+player.getWidth()/2)-widthScreen-32 && x< (keyH.getX()+ player.getWidth()/2)+widthScreen &&
-                y> (keyH.getY()+ player.getHeight()/2)-heightScreen-32 && y< (keyH.getY()+ player.getHeight()/2)+heightScreen) {
-            batch.begin();
-            batch.draw(texture, x, y, tileSize, tileSize);
-            batch.end();
-        }
     }
 }

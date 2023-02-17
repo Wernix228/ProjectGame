@@ -16,7 +16,7 @@ public class DesktopLauncher {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
 		config.setWindowedMode(1536,864);
-		config.setForegroundFPS(30);
+		config.setForegroundFPS(60);
 		config.setTitle("Game");
 
 		new Lwjgl3Application(new Game("Desktop"), config);

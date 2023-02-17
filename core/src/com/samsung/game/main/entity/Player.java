@@ -6,23 +6,16 @@ import com.samsung.game.main.KeyHandler;
 
 public class Player extends Entity {
 
-    private int visibleX = 2048;
-    private int visibleY = 1152;
-
-    public Player(KeyHandler keyH, String texture, int scale) {
+    public Player(KeyHandler keyH, String texture) {
+        this.keyH = keyH;
         this.img = new Texture(texture); // "textures/player/player.png"
         this.batch = new SpriteBatch();
-        this.keyH = keyH;
-        width = originalWidth * scale;
-        height = originalHeight * scale;
     }
 
     public void render() {
         x = keyH.getX();
         y = keyH.getY();
-        if (KeyHandler.activity) {
-            draw();
-        }
+        if (KeyHandler.activity) draw();
     }
 
     public void dispose() {
@@ -30,24 +23,19 @@ public class Player extends Entity {
         img.dispose();
     }
 
-    public void draw() {
-        batch.begin();
-        batch.draw(img, x, y, width, height);
-        batch.end();
-    }
-    public int getX(){
+    public int getX() {
         return x;
     }
-    public int getY(){
+
+    public int getY() {
         return y;
     }
 
-    public int getVisibleX() {
-        return visibleX;
-    }
-
-    public int getVisibleY() {
-        return visibleY;
+    private void draw() {
+        int scale = 2;
+        batch.begin();
+        batch.draw(img, x, y, width * scale, height * scale);
+        batch.end();
     }
 
 }

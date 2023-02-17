@@ -10,16 +10,22 @@ import com.samsung.game.main.entity.Player;
 public class Map extends Entity {
 
     private String map;
-    public Array<Tile> tiles = new Array<>();
+    private final Array<Tile> tiles = new Array<>();
 
     public Map(String map) {
         this.map = map;
         loadMap();
     }
 
+    public void setMap(String map) {
+        tiles.clear();
+        this.map = "maps/" + map + ".txt";
+        loadMap();
+    }
+
     public void render(KeyHandler keyH, Player player) {
         for (Tile tile : tiles) {
-            tile.draw(32*34,32*20, keyH, player);
+            tile.draw(32 * 34, 32 * 20, keyH, player);
         }
     }
 
@@ -29,19 +35,15 @@ public class Map extends Entity {
         }
     }
 
-    public void setMap(String map) {
-        clearMap();
-        this.map = "maps/" + map + ".txt";
-        loadMap();
-    }
-    public Array<Tile> getTile(){
+    public Array<Tile> getTiles() {
         return tiles;
     }
 
     private void loadMap() {
+
         FileHandle file = Gdx.files.internal(map);
         String tiles = file.readString().replaceAll(" ", "");
-
+        //FIX it______________________________________________________________________________________________________________________
         int worldWidth = (int) Math.sqrt(tiles.length());
         int worldHeight = (int) Math.sqrt(tiles.length());
 
@@ -55,9 +57,5 @@ public class Map extends Entity {
                 this.tiles.add(tile);
             }
         }
-    }
-
-    private void clearMap() {
-        tiles.clear();
     }
 }
