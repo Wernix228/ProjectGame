@@ -49,4 +49,5 @@ public class Player extends Entity {
     public int getVisibleY() {
         return visibleY;
     }
+
 }

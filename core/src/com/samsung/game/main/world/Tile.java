@@ -2,6 +2,8 @@ package com.samsung.game.main.world;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.samsung.game.main.KeyHandler;
+import com.samsung.game.main.entity.Player;
 
 public class Tile {
 
@@ -20,10 +22,6 @@ public class Tile {
         this.y = y * tileSize;
         this.sprite = sprite;
         loadSprite();
-    }
-
-    public void render() {
-        draw();
     }
 
     public void dispose() {
@@ -52,9 +50,12 @@ public class Tile {
         else texture = new Texture("textures/tiles/" + sprite + ".png");
     }
 
-    private void draw() {
-        batch.begin();
-        batch.draw(texture, x, y, tileSize, tileSize);
-        batch.end();
+    public void draw(int widthScreen, int heightScreen, KeyHandler keyH, Player player) {
+        if(x> (keyH.getX()+player.getWidth()/2)-widthScreen-32 && x< (keyH.getX()+ player.getWidth()/2)+widthScreen &&
+                y> (keyH.getY()+ player.getHeight()/2)-heightScreen-32 && y< (keyH.getY()+ player.getHeight()/2)+heightScreen) {
+            batch.begin();
+            batch.draw(texture, x, y, tileSize, tileSize);
+            batch.end();
+        }
     }
 }

@@ -3,7 +3,9 @@ package com.samsung.game.main.world;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
+import com.samsung.game.main.KeyHandler;
 import com.samsung.game.main.entity.Entity;
+import com.samsung.game.main.entity.Player;
 
 public class Map extends Entity {
 
@@ -15,10 +17,9 @@ public class Map extends Entity {
         loadMap();
     }
 
-    public void render() {
-
+    public void render(KeyHandler keyH, Player player) {
         for (Tile tile : tiles) {
-            tile.render();
+            tile.draw(32*34,32*20, keyH, player);
         }
     }
 
@@ -58,14 +59,5 @@ public class Map extends Entity {
 
     private void clearMap() {
         tiles.clear();
-    }
-
-    public void renderVisible(){
-        for (Tile tile:tiles) {
-            if (tile.getX() >= Gdx.input.getX() + 64 / 2f){
-                tile.render();
-            }
-
-        }
     }
 }

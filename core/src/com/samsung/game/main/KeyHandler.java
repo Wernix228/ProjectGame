@@ -12,7 +12,7 @@ public class KeyHandler {
     private int playerSpeed;
     private boolean collLeft = false;
 
-    public int getPlayerSpeed() {
+    public int getPlayerSpeed(float v) {
         return playerSpeed;
     }
 

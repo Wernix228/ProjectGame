@@ -27,9 +27,9 @@ public class Game extends ApplicationAdapter {
 
     @Override
     public void create() {
-        keyH = new KeyHandler(0, -200, 4, platform);
+        keyH = new KeyHandler(0, -200, 8, platform);
         player = new Player(keyH, "textures/player/playerHeat.png", 4);
-        map = new Map("maps/map04.txt");
+        map = new Map("maps/map01.txt");
         camera = new OrthographicCamera(1024 * 2, 576 * 2); //16*2 9*2 tiles
 //        solidArea = new SolidArea(map.getTile(), player,keyH);
     }
@@ -51,7 +51,7 @@ public class Game extends ApplicationAdapter {
         }
 
 //        stuff.render(player, camera);
-        map.render();
+        map.render(keyH, player);
         player.render();
 //        solidArea.render();
         showFPS();
