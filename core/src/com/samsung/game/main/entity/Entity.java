@@ -1,10 +1,9 @@
 package com.samsung.game.main.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.samsung.game.main.KeyHandler;
-
-import java.awt.Rectangle;
 
 public class Entity {
     KeyHandler keyH;
@@ -16,14 +15,12 @@ public class Entity {
 
     int scale = 2;
 
-    int width;
-    int height;
+    int width = originalWidth * scale;
+    int height = originalHeight * scale;
 
-    int x;
-    int y;
+    int x = Gdx.input.getX();
+    int y = Gdx.input.getY();
 
-    public int getX(){return keyH.getX();}
-    public int getY(){return keyH.getY();}
     public int getWidth(){return width;}
     public int getHeight(){return height;}
     public SpriteBatch getBatch() {

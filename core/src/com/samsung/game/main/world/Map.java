@@ -3,23 +3,12 @@ package com.samsung.game.main.world;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
-import com.samsung.game.main.KeyHandler;
 import com.samsung.game.main.entity.Entity;
-import com.samsung.game.main.entity.Player;
 
 public class Map extends Entity {
 
-    private int worldWidth;
-    private int worldHeight;
     private String map;
-    public Array<Tile> tiles = new Array<Tile>();
-
-    public Map(int x, int y, String map) {
-        this.worldWidth = x;
-        this.worldHeight = y;
-        this.map = map;
-        loadMap();
-    }
+    public Array<Tile> tiles = new Array<>();
 
     public Map(String map) {
         this.map = map;
@@ -44,24 +33,24 @@ public class Map extends Entity {
         this.map = "maps/" + map + ".txt";
         loadMap();
     }
-
-    public boolean canSee(KeyHandler keyH) {
-
-        return false;
+    public Array<Tile> getTile(){
+        return tiles;
     }
 
     private void loadMap() {
         FileHandle file = Gdx.files.internal(map);
-        String tils = file.readString().replaceAll(" ", "");
-        worldWidth = (int) Math.sqrt(tils.length());
-        worldHeight = (int) Math.sqrt(tils.length());
-        System.out.println("worldWidth " + worldWidth + " ;  worldHeight " + worldHeight);
-        String tiles[] = tils.split("\n");
+        String tiles = file.readString().replaceAll(" ", "");
 
-        for (int i = 0; i < worldWidth; i++) {
-            for (int j = 0; j < worldHeight; j++) {
-                String til = String.valueOf(tiles[j].charAt(i));
-                Tile tile = new Tile(i, -j, til);
+        int worldWidth = (int) Math.sqrt(tiles.length());
+        int worldHeight = (int) Math.sqrt(tiles.length());
+
+        System.out.println("worldWidth " + worldWidth + " ;  worldHeight " + worldHeight);
+        String[] tilesX = tiles.split("\n");
+
+        for (int x = 0; x < worldWidth; x++) {
+            for (int y = 0; y < worldHeight; y++) {
+                String til = String.valueOf(tilesX[y].charAt(x));
+                Tile tile = new Tile(x, -y, til);
                 this.tiles.add(tile);
             }
         }
@@ -69,5 +58,14 @@ public class Map extends Entity {
 
     private void clearMap() {
         tiles.clear();
+    }
+
+    public void renderVisible(){
+        for (Tile tile:tiles) {
+            if (tile.getX() >= Gdx.input.getX() + 64 / 2f){
+                tile.render();
+            }
+
+        }
     }
 }

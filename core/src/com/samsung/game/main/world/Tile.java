@@ -2,35 +2,27 @@ package com.samsung.game.main.world;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.samsung.game.main.KeyHandler;
-import com.samsung.game.main.entity.Player;
-
-import java.awt.Rectangle;
 
 public class Tile {
 
-    private int x;
-    private int y;
-    private int worldX;
-    private int worldY;
+    private final int x;
+    private final int y;
     private final int defaultSize = 32;
     private final int scale = 2;
     private final int tileSize = defaultSize * scale;
-    private boolean collision = false;
 
-    private String sprite;
+    private final String sprite;
     private SpriteBatch batch;
     private Texture texture;
 
     public Tile(int x, int y, String sprite) {
-        this.worldX = x * tileSize;
-        this.worldY = y * tileSize;
+        this.x = x * tileSize;
+        this.y = y * tileSize;
         this.sprite = sprite;
         loadSprite();
     }
 
     public void render() {
-        move();
         draw();
     }
 
@@ -38,7 +30,18 @@ public class Tile {
         texture.dispose();
         batch.dispose();
     }
-    public SpriteBatch getBatch(){return batch;}
+
+    public SpriteBatch getBatch() {
+        return batch;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 
     private void loadSprite(){
         batch = new SpriteBatch();
@@ -49,22 +52,9 @@ public class Tile {
         else texture = new Texture("textures/tiles/" + sprite + ".png");
     }
 
-    private void move() {
-        x = worldX;
-        y = worldY;
-    }
-
     private void draw() {
         batch.begin();
         batch.draw(texture, x, y, tileSize, tileSize);
         batch.end();
-    }
-
-    public int getWorldX() {
-        return worldX;
-    }
-
-    public int getWorldY() {
-        return worldY;
     }
 }

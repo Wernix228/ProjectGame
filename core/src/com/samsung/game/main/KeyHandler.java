@@ -8,10 +8,19 @@ public class KeyHandler {
     public static boolean activity = false;
     private int x;
     private int y;
-    private int defaultSpeed;
+    private final int defaultSpeed;
     private int playerSpeed;
-    private boolean boost;
-    private String platform;
+    private boolean collLeft = false;
+
+    public int getPlayerSpeed() {
+        return playerSpeed;
+    }
+
+    public void setPlayerSpeed(int playerSpeed) {
+        this.playerSpeed = playerSpeed;
+    }
+
+    private final String platform;
 
     long time = System.nanoTime();
 
@@ -21,6 +30,10 @@ public class KeyHandler {
         this.defaultSpeed = playerSpeed;
         this.playerSpeed = playerSpeed;
         this.platform = platform;
+    }
+
+    public void setCollLeft(boolean collLeft) {
+        this.collLeft = collLeft;
     }
 
     public void render() {
@@ -34,7 +47,7 @@ public class KeyHandler {
                     y -= playerSpeed;
                     activity = true;
                 }
-                if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                if (Gdx.input.isKeyPressed(Input.Keys.D) && !collLeft) {
                     x += playerSpeed;
                     activity = true;
                 }
@@ -43,9 +56,8 @@ public class KeyHandler {
                     activity = true;
                 }
 
-                if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-                    boost = true;
-                } else boost = false;
+                boolean boost;
+                boost = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT);
                 if (boost) {
                     playerSpeed = defaultSpeed * 2;
                 } else playerSpeed = defaultSpeed;
@@ -54,7 +66,7 @@ public class KeyHandler {
         if (platform.equals("Android")) {
             if (Gdx.input.isTouched()) {
                 activity = Gdx.input.isTouched();
-                if (Gdx.input.getX() < 3 * Gdx.graphics.getWidth() / 15.36f && Gdx.input.getX() > 2 * Gdx.graphics.getWidth() / 15.36f && touchLimit()) {
+                if (Gdx.input.getX() < 3 * Gdx.graphics.getWidth() / 15.36f && Gdx.input.getX() > 2 * Gdx.graphics.getWidth() / 15.36f && touchLimit() && !collLeft) {
                     x += playerSpeed;
                 } else if (Gdx.input.getX() < Gdx.graphics.getWidth() / 15.36f && touchLimit()) {
                     x -= playerSpeed;
@@ -76,21 +88,7 @@ public class KeyHandler {
         return y;
     }
 
-    public String setMap() {
-        String map = "map01";
-        if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
-            map = "map01";
-        } else if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
-            map = "map02";
-        }
-        return map;
-    }
-
     private boolean touchLimit() {
-        boolean limitY = false;
-        if (Gdx.input.getY() > Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 1.88f && Gdx.input.getX() < Gdx.graphics.getWidth() / 5.12f) {
-            limitY = true;
-        }
-        return limitY;
+        return Gdx.input.getY() > Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 1.88f && Gdx.input.getX() < Gdx.graphics.getWidth() / 5.12f;
     }
 }
