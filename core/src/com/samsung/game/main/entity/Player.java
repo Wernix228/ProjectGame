@@ -15,7 +15,7 @@ public class Player extends Entity {
     public void render() {
         x = keyH.getX();
         y = keyH.getY();
-        if (KeyHandler.activity) draw();
+        draw();
     }
 
     public void dispose() {
@@ -23,16 +23,8 @@ public class Player extends Entity {
         img.dispose();
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
     private void draw() {
-        int scale = 2;
+        int scale = 1;
         batch.begin();
         batch.draw(img, x, y, width * scale, height * scale);
         batch.end();

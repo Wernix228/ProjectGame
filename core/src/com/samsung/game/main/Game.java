@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 import com.samsung.game.main.entity.Player;
+import com.samsung.game.main.entity.SolidArea;
 import com.samsung.game.main.world.Map;
 import com.samsung.game.main.world.Tile;
 
@@ -15,8 +16,7 @@ public class Game extends ApplicationAdapter {
     KeyHandler keyH;
     Player player;
     Map map;
-//    SolidArea solidArea;
-
+    SolidArea solidArea;
     String platform;
 
     public Game(String platform) {
@@ -27,9 +27,9 @@ public class Game extends ApplicationAdapter {
     public void create() {
         keyH = new KeyHandler(0, -200, 8, platform);
         player = new Player(keyH, "textures/player/playerHeat.png");
-        map = new Map("maps/map100.txt");
+        map = new Map("map01");
         camera = new OrthographicCamera(1024 * 2, 576 * 2); //16*2 9*2 tiles
-//        solidArea = new SolidArea(map.getTile(), player,keyH);
+        solidArea = new SolidArea(map,keyH);
     }
 
     @Override
@@ -45,13 +45,12 @@ public class Game extends ApplicationAdapter {
         } else if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
             map.setMap("map02");
         } else if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)) {
-            map.setMap("maptest");
+            map.setMap("map04");
         }
 
-//        stuff.render(player, camera);
         map.render(keyH, player);
+        solidArea.render();
         player.render();
-//        solidArea.render();
         showFPS();
 
     }

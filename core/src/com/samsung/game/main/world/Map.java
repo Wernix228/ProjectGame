@@ -9,18 +9,19 @@ import com.samsung.game.main.entity.Player;
 
 public class Map extends Entity {
 
-    private String map;
     private final Array<Tile> tiles = new Array<>();
 
-    public Map(String map) {
-        this.map = map;
-        loadMap();
+    public Array<Tile> getTiles() {
+        return tiles;
     }
 
-    public void setMap(String map) {
+    public Map(String maps) {
+        setMap(maps);
+    }
+
+    public void setMap(String maps) {
         tiles.clear();
-        this.map = "maps/" + map + ".txt";
-        loadMap();
+        loadLevel(maps);
     }
 
     public void render(KeyHandler keyH, Player player) {
@@ -35,19 +36,21 @@ public class Map extends Entity {
         }
     }
 
-    public Array<Tile> getTiles() {
-        return tiles;
+    private void loadLevel(String maps) {
+        String map = "maps/" + maps + ".txt";
+        if (maps.equals("map01")) {
+            loadMap(map, 50, 50);
+        }else if (maps.equals("map100")){
+            loadMap(map,100,100);
+        }
+
     }
 
-    private void loadMap() {
-
-        FileHandle file = Gdx.files.internal(map);
-        String tiles = file.readString().replaceAll(" ", "");
-        //FIX it______________________________________________________________________________________________________________________
-        int worldWidth = (int) Math.sqrt(tiles.length());
-        int worldHeight = (int) Math.sqrt(tiles.length());
+    private void loadMap(String map, int worldWidth, int worldHeight) {
 
         System.out.println("worldWidth " + worldWidth + " ;  worldHeight " + worldHeight);
+        FileHandle file = Gdx.files.internal(map);
+        String tiles = file.readString().replaceAll(" ", "");
         String[] tilesX = tiles.split("\n");
 
         for (int x = 0; x < worldWidth; x++) {

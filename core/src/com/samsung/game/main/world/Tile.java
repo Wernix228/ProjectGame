@@ -12,6 +12,7 @@ public class Tile {
     private final int defaultSize = 32;
     private final int scale = 2;
     private final int tileSize = defaultSize * scale;
+    private boolean solid;
 
     private final String sprite;
     private SpriteBatch batch;
@@ -25,8 +26,8 @@ public class Tile {
     }
 
     public void draw(int widthScreen, int heightScreen, KeyHandler keyH, Player player) {
-        if(x> (keyH.getX()+player.getWidth()/2)-widthScreen-32 && x< (keyH.getX()+ player.getWidth()/2)+widthScreen &&
-                y> (keyH.getY()+ player.getHeight()/2)-heightScreen-32 && y< (keyH.getY()+ player.getHeight()/2)+heightScreen) {
+        if (x > (keyH.getX() + player.getWidth() / 2) - widthScreen - 32 && x < (keyH.getX() + player.getWidth() / 2) + widthScreen &&
+                y > (keyH.getY() + player.getHeight() / 2) - heightScreen - 32 && y < (keyH.getY() + player.getHeight() / 2) + heightScreen) {
             batch.begin();
             batch.draw(texture, x, y, tileSize, tileSize);
             batch.end();
@@ -42,6 +43,10 @@ public class Tile {
         return batch;
     }
 
+    public boolean collision() {
+        return solid;
+    }
+
     public int getX() {
         return x;
     }
@@ -50,12 +55,18 @@ public class Tile {
         return y;
     }
 
-    private void loadSprite(){
+    private void loadSprite() {
+        setCollision(sprite);
         batch = new SpriteBatch();
-        if (Integer.parseInt(sprite) < 10)
+        if (Integer.parseInt(sprite) < 10) {
             texture = new Texture("textures/tiles/00" + sprite + ".png");
-        else if (Integer.parseInt(sprite) < 100)
+        } else if (Integer.parseInt(sprite) < 100) {
             texture = new Texture("textures/tiles/0" + sprite + ".png");
-        else texture = new Texture("textures/tiles/" + sprite + ".png");
+        } else {
+            texture = new Texture("textures/tiles/" + sprite + ".png");
+        }
+    }
+    private void setCollision(String sprite){
+        this.solid = sprite.equals("4") || sprite.equals("2") || sprite.equals("5");
     }
 }
