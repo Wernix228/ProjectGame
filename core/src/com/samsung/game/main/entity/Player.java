@@ -24,9 +24,8 @@ public class Player extends Entity {
     }
 
     private void draw() {
-        int scale = 1;
         batch.begin();
-        batch.draw(img, x, y, width * scale, height * scale);
+        batch.draw(img, x, y, width, height);
         batch.end();
     }
 

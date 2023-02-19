@@ -25,11 +25,11 @@ public class Game extends ApplicationAdapter {
 
     @Override
     public void create() {
-        keyH = new KeyHandler(0, -200, 8, platform);
+        keyH = new KeyHandler(0, -200, 4, platform);
         player = new Player(keyH, "textures/player/playerHeat.png");
-        map = new Map("map01");
+        map = new Map("map50");
         camera = new OrthographicCamera(1024 * 2, 576 * 2); //16*2 9*2 tiles
-        solidArea = new SolidArea(map,keyH);
+        solidArea = new SolidArea(map,keyH, player);
     }
 
     @Override

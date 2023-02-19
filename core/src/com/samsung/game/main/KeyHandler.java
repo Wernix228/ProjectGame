@@ -52,6 +52,9 @@ public class KeyHandler {
     public void setCollisionLeft(boolean collisionLeft) {
         this.collisionLeft = collisionLeft;
     }
+    public int getPlayerSpeed() {
+        return playerSpeed;
+    }
 
     public void setCollisionRight(boolean collisionRight) {
         this.collisionRight = collisionRight;
@@ -75,15 +78,19 @@ public class KeyHandler {
     private void setUpPC() {
         if (Gdx.input.isKeyPressed(Input.Keys.W) && !collisionUp) {
             y += playerSpeed;
+            setCollisionDown(false);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S) && !collisionDown) {
             y -= playerSpeed;
+            setCollisionUp(false);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D) && !collisionRight) {
             x += playerSpeed;
+            setCollisionLeft(true);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A) && !collisionLeft) {
             x -= playerSpeed;
+            setCollisionRight(true);
         }
         boost = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT);
     }

@@ -26,7 +26,7 @@ public class Tile {
     }
 
     public void draw(int widthScreen, int heightScreen, KeyHandler keyH, Player player) {
-        if (x > (keyH.getX() + player.getWidth() / 2) - widthScreen - 32 && x < (keyH.getX() + player.getWidth() / 2) + widthScreen &&
+        if (x > (keyH.getX() + player.getWidth() / 2) - widthScreen && x < (keyH.getX() + player.getWidth() / 2) + widthScreen &&
                 y > (keyH.getY() + player.getHeight() / 2) - heightScreen - 32 && y < (keyH.getY() + player.getHeight() / 2) + heightScreen) {
             batch.begin();
             batch.draw(texture, x, y, tileSize, tileSize);
@@ -55,6 +55,10 @@ public class Tile {
         return y;
     }
 
+    public int getTileSize() {
+        return tileSize;
+    }
+
     private void loadSprite() {
         setCollision(sprite);
         batch = new SpriteBatch();
@@ -67,6 +71,6 @@ public class Tile {
         }
     }
     private void setCollision(String sprite){
-        this.solid = sprite.equals("4") || sprite.equals("2") || sprite.equals("5");
+        this.solid = Integer.parseInt(sprite)>=2 && Integer.parseInt(sprite)<=8;
     }
 }

@@ -39,11 +39,13 @@ public class Map extends Entity {
     private void loadLevel(String maps) {
         String map = "maps/" + maps + ".txt";
         if (maps.equals("map01")) {
-            loadMap(map, 50, 50);
+            loadMap(map, 10, 10);
         }else if (maps.equals("map100")){
             loadMap(map,100,100);
         }else if (maps.equals("map250")){
             loadMap(map,250,250);
+        }else if (maps.equals("map50")){
+            loadMap(map,50,50);
         }
 
     }
