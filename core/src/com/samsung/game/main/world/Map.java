@@ -42,6 +42,8 @@ public class Map extends Entity {
             loadMap(map, 50, 50);
         }else if (maps.equals("map100")){
             loadMap(map,100,100);
+        }else if (maps.equals("map250")){
+            loadMap(map,250,250);
         }
 
     }

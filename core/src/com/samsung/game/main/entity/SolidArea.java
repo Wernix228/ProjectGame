@@ -10,37 +10,46 @@ public class SolidArea {
     private Array<Tile> tiles;
     private KeyHandler keyH;
 
-    public SolidArea(Map map, KeyHandler keyH){
+    public SolidArea(Map map, KeyHandler keyH) {
         tiles = map.getTiles();
         this.keyH = keyH;
     }
-    public void render(){
-        for (Tile tile:tiles) {
-            if (tile.getX() + 64 == keyH.getX() && tile.getY() == keyH.getY()){
-                if (tile.collision()) {
-                    System.out.println("Left");
-                    keyH.setCollisionLeft(true);
-                }else keyH.setCollisionLeft(false);
-            }
-            if (tile.getX() - 64 == keyH.getX() && tile.getY() == keyH.getY()){
-                if (tile.collision()) {
-                    System.out.println("Right");
-                    keyH.setCollisionRight(true);
-                }else keyH.setCollisionRight(false);
-            }
-            if (tile.getX() == keyH.getX() && tile.getY() - 64 == keyH.getY()){
-                if (tile.collision()) {
-                    System.out.println("Up");
-                    keyH.setCollisionUp(true);
-                }else keyH.setCollisionUp(false);
-            }
-            if (tile.getX() == keyH.getX() && tile.getY() + 64 == keyH.getY()){
-                if (tile.collision()) {
-                    System.out.println("Down");
-                    keyH.setCollisionDown(true);
-                }else keyH.setCollisionDown(false);
-            }
+
+    public void render() {
+        for (Tile tile : tiles) {
+            collision(tile);
         }
     }
 
+    private void collision(Tile tile) {
+        if (tile.collision()) {
+            for (int i = -64; i < 64; i++) {
+                if (tile.getY() + i == keyH.getY()) {
+                    if (tile.getX() + 64 == keyH.getX()) {
+                        System.out.println("Left");
+                        keyH.setCollisionLeft(true);
+                    } else keyH.setCollisionLeft(false);
+                    if (tile.getX() - 64 == keyH.getX()) {
+                        System.out.println("Right");
+                        keyH.setCollisionRight(true);
+                    } else keyH.setCollisionRight(false);
+                }
+            }
+
+            for (int i = -64; i < 64; i++) {
+                if (tile.getX() + i == keyH.getX()) {
+                    if (tile.getY() + 64 == keyH.getY()) {
+                        System.out.println("Down");
+                        keyH.setCollisionDown(true);
+                    } else keyH.setCollisionDown(false);
+                    if (tile.getY() - 64 == keyH.getY()) {
+                        System.out.println("Up");
+                        keyH.setCollisionUp(true);
+                    } else keyH.setCollisionUp(false);
+                }
+            }
+
+        }
+    }
 }
+
