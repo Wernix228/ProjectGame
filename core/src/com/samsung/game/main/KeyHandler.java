@@ -2,6 +2,7 @@ package com.samsung.game.main;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.files.FileHandle;
 
 public class KeyHandler {
     private int x;
@@ -14,7 +15,7 @@ public class KeyHandler {
     private boolean collisionLeft = false;
     private boolean collisionRight = false;
 
-    public KeyHandler(int playerX, int playerY, int playerSpeed,String platform) {
+    public KeyHandler(int playerX, int playerY, int playerSpeed, String platform) {
         this.x = playerX;
         this.y = playerY;
         this.defaultSpeed = playerSpeed;
@@ -24,37 +25,12 @@ public class KeyHandler {
 
     public void render() {
         if (platform.equals("Desktop")) {
-                if (Gdx.input.isKeyPressed(Input.Keys.W) && !collisionUp) {
-                    y += playerSpeed;
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.S) && !collisionDown) {
-                    y -= playerSpeed;
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.D) && !collisionRight) {
-                    x += playerSpeed;
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.A) && !collisionLeft) {
-                    x -= playerSpeed;
-                }
-                boost = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT);
+            setUpPC();
         }
         if (platform.equals("Android")) {
-            if (Gdx.input.isTouched()) {
-                if (Gdx.input.getX() < 3 * Gdx.graphics.getWidth() / 15.36f && Gdx.input.getX() > 2 * Gdx.graphics.getWidth() / 15.36f && touchLimit() && !collisionRight) {
-                    x += playerSpeed;
-                } else if (Gdx.input.getX() < Gdx.graphics.getWidth() / 15.36f && touchLimit() && !collisionLeft) {
-                    x -= playerSpeed;
-                }
-                if (Gdx.input.getY() > Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 2.88f / 3 && touchLimit() && !collisionDown) {
-                    y -= playerSpeed;
-                } else if (Gdx.input.getY() > Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 2.88f && Gdx.input.getY() < Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 2.88f / 1.5f && touchLimit() && !collisionUp) {
-                    y += playerSpeed;
-                }
-            }
+            setUpAndroid();
         }
-        if (boost) {
-            playerSpeed = defaultSpeed * 2;
-        } else playerSpeed = defaultSpeed;
+        setUpOther();
     }
 
     public int getX() {
@@ -79,6 +55,43 @@ public class KeyHandler {
 
     public void setCollisionRight(boolean collisionRight) {
         this.collisionRight = collisionRight;
+    }
+
+    private void setUpAndroid() {
+        if (Gdx.input.isTouched()) {
+            if (Gdx.input.getX() < 3 * Gdx.graphics.getWidth() / 15.36f && Gdx.input.getX() > 2 * Gdx.graphics.getWidth() / 15.36f && touchLimit() && !collisionRight) {
+                x += playerSpeed;
+            } else if (Gdx.input.getX() < Gdx.graphics.getWidth() / 15.36f && touchLimit() && !collisionLeft) {
+                x -= playerSpeed;
+            }
+            if (Gdx.input.getY() > Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 2.88f / 3 && touchLimit() && !collisionDown) {
+                y -= playerSpeed;
+            } else if (Gdx.input.getY() > Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 2.88f && Gdx.input.getY() < Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 2.88f / 1.5f && touchLimit() && !collisionUp) {
+                y += playerSpeed;
+            }
+        }
+    }
+
+    private void setUpPC() {
+        if (Gdx.input.isKeyPressed(Input.Keys.W) && !collisionUp) {
+            y += playerSpeed;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.S) && !collisionDown) {
+            y -= playerSpeed;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.D) && !collisionRight) {
+            x += playerSpeed;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.A) && !collisionLeft) {
+            x -= playerSpeed;
+        }
+        boost = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT);
+    }
+
+    private void setUpOther(){
+        if (boost) {
+            playerSpeed = defaultSpeed * 2;
+        } else playerSpeed = defaultSpeed;
     }
 
     private boolean touchLimit() {
