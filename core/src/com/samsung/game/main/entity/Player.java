@@ -1,6 +1,7 @@
 package com.samsung.game.main.entity;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.samsung.game.main.KeyHandler;
 

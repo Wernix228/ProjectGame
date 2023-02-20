@@ -14,6 +14,7 @@ public class KeyHandler {
     private boolean collisionDown = false;
     private boolean collisionLeft = false;
     private boolean collisionRight = false;
+    private boolean attack = false;
 
     public KeyHandler(int playerX, int playerY, int playerSpeed, String platform) {
         this.x = playerX;
@@ -60,6 +61,7 @@ public class KeyHandler {
         this.collisionRight = collisionRight;
     }
 
+
     private void setUpAndroid() {
         if (Gdx.input.isTouched()) {
             if (Gdx.input.getX() < 3 * Gdx.graphics.getWidth() / 15.36f && Gdx.input.getX() > 2 * Gdx.graphics.getWidth() / 15.36f && touchLimit() && !collisionRight) {
@@ -100,9 +102,11 @@ public class KeyHandler {
             playerSpeed = defaultSpeed * 2;
         } else playerSpeed = defaultSpeed;
     }
-
     private boolean touchLimit() {
         return Gdx.input.getY() > Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 1.88f && Gdx.input.getX() < Gdx.graphics.getWidth() / 5.12f;
+    }
+    private void attack(){
+
     }
 
     private final String platform;
