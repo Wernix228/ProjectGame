@@ -3,6 +3,10 @@ package com.samsung.game.main;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.files.FileHandle;
+import com.samsung.game.main.entity.stuff.Bullets;
+
+import java.awt.MouseInfo;
+import java.awt.Point;
 
 public class KeyHandler {
     private int x;
@@ -14,14 +18,19 @@ public class KeyHandler {
     private boolean collisionDown = false;
     private boolean collisionLeft = false;
     private boolean collisionRight = false;
+    private String direction = "top";
+    Bullets bullets;
     private boolean attack = false;
+    private long cooldownAttack = 15;
+    private long cooldown=0;
 
-    public KeyHandler(int playerX, int playerY, int playerSpeed, String platform) {
+    public KeyHandler(int playerX, int playerY, int playerSpeed, String platform, Bullets bullets) {
         this.x = playerX;
         this.y = playerY;
         this.defaultSpeed = playerSpeed;
         this.playerSpeed = playerSpeed;
         this.platform = platform;
+        this.bullets=bullets;
     }
 
     public void render() {
@@ -66,13 +75,26 @@ public class KeyHandler {
         if (Gdx.input.isTouched()) {
             if (Gdx.input.getX() < 3 * Gdx.graphics.getWidth() / 15.36f && Gdx.input.getX() > 2 * Gdx.graphics.getWidth() / 15.36f && touchLimit() && !collisionRight) {
                 x += playerSpeed;
+                direction="right";
             } else if (Gdx.input.getX() < Gdx.graphics.getWidth() / 15.36f && touchLimit() && !collisionLeft) {
                 x -= playerSpeed;
+                direction="left";
             }
             if (Gdx.input.getY() > Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 2.88f / 3 && touchLimit() && !collisionDown) {
                 y -= playerSpeed;
+                direction="bottom";
             } else if (Gdx.input.getY() > Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 2.88f && Gdx.input.getY() < Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 2.88f / 1.5f && touchLimit() && !collisionUp) {
                 y += playerSpeed;
+                direction="top";
+            }
+
+            if(!touchLimit()){
+                cooldown++;
+
+                if(cooldown>=cooldownAttack) {
+                    attack();
+                    cooldown=0;
+                }
             }
         }
     }
@@ -80,19 +102,31 @@ public class KeyHandler {
     private void setUpPC() {
         if (Gdx.input.isKeyPressed(Input.Keys.W) && !collisionUp) {
             y += playerSpeed;
+            direction="top";
             setCollisionDown(false);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S) && !collisionDown) {
             y -= playerSpeed;
+            direction="bottom";
             setCollisionUp(false);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D) && !collisionRight) {
             x += playerSpeed;
-            setCollisionLeft(true);
+            direction="right";
+            setCollisionLeft(false);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A) && !collisionLeft) {
             x -= playerSpeed;
-            setCollisionRight(true);
+            direction="left";
+            setCollisionRight(false);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.Q)) {
+            cooldown++;
+        }
+
+        if(cooldown>=cooldownAttack) {
+            attack();
+            cooldown=0;
         }
         boost = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT);
     }
@@ -106,7 +140,7 @@ public class KeyHandler {
         return Gdx.input.getY() > Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 1.88f && Gdx.input.getX() < Gdx.graphics.getWidth() / 5.12f;
     }
     private void attack(){
-
+        bullets.createBullet("textures/player/stuff/bullet.png",x,y,direction,2);
     }
 
     private final String platform;

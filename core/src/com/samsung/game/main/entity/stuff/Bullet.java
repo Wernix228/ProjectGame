@@ -6,19 +6,19 @@ import com.samsung.game.main.entity.Entity;
 
 public class Bullet extends Entity {
 
-    private int x0;
-    private int y0;
     private int speed = 1;
+    private boolean finish=false;
+    private int lifeEnd=1000-7;
+    private int life=0;
+    private String direction;
 
-
-    public Bullet(String texture,int x0, int y0, int x, int y,int speed) {
+    public Bullet(String texture,int x, int y, String direction, int speed) {
         this.img = new Texture(texture);
         this.batch = new SpriteBatch();
-        this.x0 = x0;
-        this.y0 = y0;
         this.x = x;
         this.y = y;
         this.speed = speed;
+        this.direction=direction;
     }
 
     public void render() {
@@ -40,16 +40,37 @@ public class Bullet extends Entity {
 
     private void draw() {
 
-        if (x0 < x){
-            x0+=speed;
+        if(life>=lifeEnd) {
+            finish=true;
+        }else{
+            if (direction.equals("top")) {
+                y += speed;
+            }else if (direction.equals("bottom")) {
+                y -= speed;
+            }else if (direction.equals("left")) {
+                x -= speed;
+            }else if (direction.equals("right")) {
+                x += speed;
+            }
         }
-        if (y0 < y){
-            y0+=speed;
-        }
-
         batch.begin();
-        batch.draw(img, x0, y0, width, height);
+        batch.draw(img, x, y, width, height);
         batch.end();
+        life++;
     }
 
+    public SpriteBatch getBatch() {
+        return batch;
+    }
+
+    public boolean getFinish() {
+        return finish;
+    }
+
+    public void setFinish(boolean finish) {
+        this.finish = finish;
+    }
+
+    public int getX(){return x;}
+    public int getY(){return y;}
 }

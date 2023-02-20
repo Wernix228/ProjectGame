@@ -7,17 +7,19 @@ public class Bullets {
 
     Array<Bullet> bullets = new Array<>();
 
-    public Bullets() {
-
-    }
     public void render(){
         for (Bullet bullet:bullets) {
-            bullet.render();
+            if(!bullet.getFinish()) {
+                bullet.render();
+            }else {
+                bullet = null;
+                bullets.removeValue(bullet, false);
+            }
         }
     }
 
-    public void createBuleet(String texture, int x0, int y0, int x, int y,int speed) {
-        Bullet bullet = new Bullet(texture,x0,y0,x,y,speed);
+    public void createBullet(String texture, int x0, int y0, String direction, int speed) {
+        Bullet bullet = new Bullet(texture,x0,y0,direction,speed);
         bullets.add(bullet);
     }
     public void dispose(){
@@ -26,4 +28,7 @@ public class Bullets {
         }
     }
 
+    public Array<Bullet> getBullets() {
+        return bullets;
+    }
 }

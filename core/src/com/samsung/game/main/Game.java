@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 import com.samsung.game.main.entity.Player;
 import com.samsung.game.main.entity.SolidArea;
+import com.samsung.game.main.entity.stuff.Bullet;
+import com.samsung.game.main.entity.stuff.Bullets;
 import com.samsung.game.main.world.Map;
 import com.samsung.game.main.world.Tile;
 
@@ -18,6 +20,7 @@ public class Game extends ApplicationAdapter {
     Map map;
     SolidArea solidArea;
     String platform;
+    Bullets bullets;
 
     public Game(String platform) {
         this.platform = platform;
@@ -25,20 +28,21 @@ public class Game extends ApplicationAdapter {
 
     @Override
     public void create() {
-        keyH = new KeyHandler(0, -200, 4, platform);
+        bullets = new Bullets();
+        keyH = new KeyHandler(0, -200, 4, platform, bullets);
         player = new Player(keyH, "textures/player/playerHeat.png");
         map = new Map("map50");
         camera = new OrthographicCamera(1024 * 2, 576 * 2); //16*2 9*2 tiles
-        solidArea = new SolidArea(map,keyH, player);
+        solidArea = new SolidArea(map, keyH, player,bullets);
+        //setUpCamera();
     }
 
     @Override
     public void render() {
         Gdx.gl.glClearColor(.01f, .01f, .01f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        setUpCamera();
         keyH.render();
+        setUpCamera();
 
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
             map.setMap("map01");
@@ -51,6 +55,7 @@ public class Game extends ApplicationAdapter {
         map.render(keyH, player);
         solidArea.render();
         player.render();
+        bullets.render();
         showFPS();
 
     }
@@ -69,6 +74,7 @@ public class Game extends ApplicationAdapter {
     public void dispose() {
         player.dispose();
         map.dispose();
+        bullets.dispose();
     }
 
     double FPS = 60f;
@@ -103,6 +109,9 @@ public class Game extends ApplicationAdapter {
         player.getBatch().setProjectionMatrix(camera.combined);
         for (Tile tile : map.getTiles()) {
             tile.getBatch().setProjectionMatrix(camera.combined);
+        }
+        for (Bullet bullet: bullets.getBullets()) {
+            bullet.getBatch().setProjectionMatrix(camera.combined);
         }
         camera.position.set(new Vector3(keyH.getX() + player.getWidth() / 2f, keyH.getY() + player.getHeight() / 2f, 0));
     }

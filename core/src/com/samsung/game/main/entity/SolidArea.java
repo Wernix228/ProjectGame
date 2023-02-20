@@ -2,6 +2,8 @@ package com.samsung.game.main.entity;
 
 import com.badlogic.gdx.utils.Array;
 import com.samsung.game.main.KeyHandler;
+import com.samsung.game.main.entity.stuff.Bullet;
+import com.samsung.game.main.entity.stuff.Bullets;
 import com.samsung.game.main.world.Map;
 import com.samsung.game.main.world.Tile;
 
@@ -10,13 +12,15 @@ public class SolidArea {
     private Array<Tile> tiles;
     private KeyHandler keyH;
     private Player player;
-    private boolean collisionOn=false;
+    private Bullets bullets;
+    private boolean collisionOn = false;
     private int tilesInVisibleArea;
 
-    public SolidArea(Map map, KeyHandler keyH, Player player) {
+    public SolidArea(Map map, KeyHandler keyH, Player player, Bullets bullets) {
         tiles = map.getTiles();
         this.keyH = keyH;
         this.player = player;
+        this.bullets=bullets;
     }
 
     public void render() {
@@ -24,30 +28,32 @@ public class SolidArea {
             if (tile.collision()) {
                 tilesInVisibleArea++;
                 playerVisible(35, 64, tile);
+                for (Bullet bullet : bullets.getBullets()) {
+                    bulletVisible(bullet,35,64,tile);
+                }
             }
         }
-        if(tilesInVisibleArea==0){
-            collisionOn=false;
+        if (tilesInVisibleArea == 0) {
+            collisionOn = false;
             keyH.setCollisionLeft(false);
             keyH.setCollisionRight(false);
             keyH.setCollisionDown(false);
             keyH.setCollisionUp(false);
         }
         //System.out.println(tilesInVisibleArea);
-        tilesInVisibleArea=0;
+        tilesInVisibleArea = 0;
     }
-
     private void playerVisible(int widthScreen, int heightScreen, Tile tile) {
         if (tile.getX() > (keyH.getX() + player.getWidth() / 2) - widthScreen - 64 && tile.getX() < (keyH.getX() + player.getWidth() / 2) + widthScreen &&
                 tile.getY() > (keyH.getY() + player.getHeight() / 2) - heightScreen - 32 && tile.getY() < (keyH.getY() + player.getHeight() / 2) + heightScreen) {
             //System.out.println("XY");
-            collision(tile);
+            collisionPlayer(tile);
         }else{
             tilesInVisibleArea--;
         }
     }
 
-    private void collision(Tile tile) {
+    private void collisionPlayer(Tile tile) {
 
         if (keyH.getY() <= tile.getY() + tile.getTileSize()-10 && keyH.getY() + player.getHeight() > tile.getY()+10) {
             if (keyH.getX() <= tile.getX() + tile.getTileSize() && keyH.getX() > tile.getX()) {
@@ -82,5 +88,12 @@ public class SolidArea {
             keyH.setCollisionUp(false);
         }
     }
-}
 
+    private void bulletVisible(Bullet bullet, int widthScreen, int heightScreen, Tile tile) {
+        if (tile.getX() > (bullet.getX() + bullet.getWidth() / 2) - widthScreen - 64 && tile.getX() < (bullet.getX() + bullet.getWidth() / 2) + widthScreen &&
+                tile.getY() > (bullet.getY() + bullet.getHeight() / 2) - heightScreen - 32 && tile.getY() < (bullet.getY() + bullet.getHeight() / 2) + heightScreen) {
+            //System.out.println("XY");
+            bullet.setFinish(true);
+        }
+    }
+}
