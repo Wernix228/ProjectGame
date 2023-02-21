@@ -18,8 +18,8 @@ public class Bullets {
         }
     }
 
-    public void createBullet(String texture, int x0, int y0, String direction, int speed) {
-        Bullet bullet = new Bullet(texture,x0,y0,direction,speed);
+    public void createBullet(String texture, int x, int y, String direction, int speed) {
+        Bullet bullet = new Bullet(texture,x,y,direction,speed);
         bullets.add(bullet);
     }
     public void dispose(){

@@ -14,7 +14,7 @@ public class SolidArea {
     private Player player;
     private Bullets bullets;
     private boolean collisionOn = false;
-    private int tilesInVisibleArea;
+    private int tilesInCollisionArea;
 
     public SolidArea(Map map, KeyHandler keyH, Player player, Bullets bullets) {
         tiles = map.getTiles();
@@ -26,29 +26,27 @@ public class SolidArea {
     public void render() {
         for (Tile tile : tiles) {
             if (tile.collision()) {
-                tilesInVisibleArea++;
+                tilesInCollisionArea++;
                 playerVisible(tile);
                 for (Bullet bullet : bullets.getBullets()) {
                     bulletVisible(bullet,tile);
                 }
             }
         }
-        if (tilesInVisibleArea == 0) {
+        if (tilesInCollisionArea == 0) {
             collisionOn = false;
             keyH.setCollisionLeft(false);
             keyH.setCollisionRight(false);
             keyH.setCollisionDown(false);
             keyH.setCollisionUp(false);
         }
-        //System.out.println(tilesInVisibleArea);
-        tilesInVisibleArea = 0;
+        tilesInCollisionArea = 0;
     }
     private void playerVisible(Tile tile) {
         if (player.getSolidBox().overlaps(tile.getSolidBox())) {
-            //System.out.println("XY");
             collisionPlayer(tile);
         }else{
-            tilesInVisibleArea--;
+            tilesInCollisionArea--;
         }
     }
 
@@ -90,7 +88,6 @@ public class SolidArea {
 
     private void bulletVisible(Bullet bullet, Tile tile) {
         if (bullet.getSolidBox().overlaps(tile.getSolidBox())) {
-            //System.out.println("XY");
             bullet.setFinish(true);
         }
     }

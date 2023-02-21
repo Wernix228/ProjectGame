@@ -34,13 +34,13 @@ public class Game extends ApplicationAdapter {
         if (Config.screenMode.equals("fullScreen")){
             Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
         }
-        bullets = new Bullets();
-        keyH = new KeyHandler(200, -200, 2, platform, bullets);
-        player = new Player(keyH, "textures/player/player.png");
-        map = new Map("map50");
         camera = new OrthographicCamera(1024 * 2, 576 * 2); //16*2 9*2 tiles
-        solidArea = new SolidArea(map, keyH, player,bullets);
         inteface = new Inteface("interface/shadow0.1.png");
+        bullets = new Bullets();
+        keyH = new KeyHandler(200, -200, 4, platform, bullets);
+        map = new Map("labirint");
+        player = new Player(keyH, "textures/player/player.png");
+        solidArea = new SolidArea(map, keyH, player,bullets);
         setUpCamera();
     }
 

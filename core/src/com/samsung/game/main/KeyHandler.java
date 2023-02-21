@@ -19,7 +19,7 @@ public class KeyHandler {
     private boolean collisionLeft = false;
     private boolean collisionRight = false;
     private String direction = "top";
-    Bullets bullets;
+    private Bullets bullets;
     private boolean attack = false;
     private long cooldownAttack = 15;
     private long cooldown=0;
@@ -128,7 +128,7 @@ public class KeyHandler {
             attack();
             cooldown=0;
         }
-        boost = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT);
+        //boost = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT);
     }
 
     private void setUpOther(){
