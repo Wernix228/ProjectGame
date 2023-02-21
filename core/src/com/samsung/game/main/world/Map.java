@@ -7,6 +7,11 @@ import com.samsung.game.main.KeyHandler;
 import com.samsung.game.main.entity.Entity;
 import com.samsung.game.main.entity.Player;
 
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Scanner;
+
 public class Map extends Entity {
 
     private final Array<Tile> tiles = new Array<>();
@@ -26,7 +31,8 @@ public class Map extends Entity {
 
     public void render(KeyHandler keyH, Player player) {
         for (Tile tile : tiles) {
-            tile.draw(32 * 34, 32 * 20, keyH, player);
+            tile.draw(32 * 35, 32 * 20, keyH, player);
+//            tile.draw(100, 100, keyH, player);
         }
     }
 
@@ -38,30 +44,29 @@ public class Map extends Entity {
 
     private void loadLevel(String maps) {
         String map = "maps/" + maps + ".txt";
-        if (maps.equals("map01")) {
-            loadMap(map, 10, 10);
-        }else if (maps.equals("map100")){
-            loadMap(map,100,100);
-        }else if (maps.equals("map250")){
-            loadMap(map,250,250);
-        }else if (maps.equals("map50")){
-            loadMap(map,50,50);
-        }
+        loadMap(map);
 
     }
 
-    private void loadMap(String map, int worldWidth, int worldHeight) {
-
-        System.out.println("worldWidth " + worldWidth + " ;  worldHeight " + worldHeight);
+    private void loadMap(String map) {
+        String[][] arr;
         FileHandle file = Gdx.files.internal(map);
-        String tiles = file.readString().replaceAll(" ", "");
-        String[] tilesX = tiles.split("\n");
+        InputStream inputStream = file.read();
+        Scanner scn = new Scanner(inputStream);
+        ArrayList<String[]> nums = new ArrayList<>();
 
-        for (int x = 0; x < worldWidth; x++) {
-            for (int y = 0; y < worldHeight; y++) {
-                String til = String.valueOf(tilesX[y].charAt(x));
-                Tile tile = new Tile(x, -y, til);
-                this.tiles.add(tile);
+        while (scn.hasNext()) {
+            nums.add(scn.nextLine().split(" "));
+        }
+        int columns = nums.get(0).length;
+        arr = new String[nums.size()][columns];
+        Iterator<String[]> iter = nums.iterator();
+        for (int i = 0; i < arr.length; i++) {
+            String[] s = iter.next();
+            for (int j = 0; j < columns; j++) {
+                arr[i][j] = s[j];
+                Tile tile = new Tile(j, -i, arr[i][j]);
+                tiles.add(tile);
             }
         }
     }

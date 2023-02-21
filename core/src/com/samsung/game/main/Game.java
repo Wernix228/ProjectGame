@@ -22,6 +22,7 @@ public class Game extends ApplicationAdapter {
     String platform;
     Bullets bullets;
     Config config;
+    Inteface inteface;
 
     public Game(String platform) {
         this.platform = platform;
@@ -31,11 +32,12 @@ public class Game extends ApplicationAdapter {
     public void create() {
         bullets = new Bullets();
         keyH = new KeyHandler(0, -200, 4, platform, bullets);
-        config = new Config("config.txt");
+//        config = new Config("config.txt");
         player = new Player(keyH, "textures/player/playerHeat.png");
-        map = new Map("map50");
+        map = new Map("labirint");
         camera = new OrthographicCamera(1024 * 2, 576 * 2); //16*2 9*2 tiles
         solidArea = new SolidArea(map, keyH, player,bullets);
+        inteface = new Inteface("interface/shadow0.1.png");
         //setUpCamera();
     }
 
@@ -58,6 +60,7 @@ public class Game extends ApplicationAdapter {
         solidArea.render();
         player.render();
         bullets.render();
+        inteface.render();
         showFPS();
 
     }
