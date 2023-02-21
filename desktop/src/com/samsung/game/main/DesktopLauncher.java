@@ -15,7 +15,8 @@ public class DesktopLauncher {
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-		config.setWindowedMode(1536,864);
+//		config.setWindowedMode(1536,864);
+		config.setWindowedMode((int) screenSize.getWidth(), (int) screenSize.getHeight());
 		config.setForegroundFPS(60);
 		config.setTitle("Game");
 
