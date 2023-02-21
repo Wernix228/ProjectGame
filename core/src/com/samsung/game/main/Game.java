@@ -21,6 +21,7 @@ public class Game extends ApplicationAdapter {
     SolidArea solidArea;
     String platform;
     Bullets bullets;
+    Config config;
 
     public Game(String platform) {
         this.platform = platform;
@@ -30,6 +31,7 @@ public class Game extends ApplicationAdapter {
     public void create() {
         bullets = new Bullets();
         keyH = new KeyHandler(0, -200, 4, platform, bullets);
+        config = new Config("config.txt");
         player = new Player(keyH, "textures/player/playerHeat.png");
         map = new Map("map50");
         camera = new OrthographicCamera(1024 * 2, 576 * 2); //16*2 9*2 tiles
