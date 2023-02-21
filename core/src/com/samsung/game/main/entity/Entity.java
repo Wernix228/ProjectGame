@@ -16,7 +16,7 @@ public class Entity {
     protected int originalWidth = 32;
     protected int originalHeight = 32;
 
-    protected int scale = 2;
+    protected int scale = 3;
 
     protected int width = originalWidth * scale;
     protected int height = originalHeight * scale;

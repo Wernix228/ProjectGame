@@ -9,6 +9,7 @@ public class Config {
 
     String config;
     static String screenMode = "window";
+    static int volume = 2;
 
     public Config(String config) {
         this.config = config;
@@ -22,13 +23,25 @@ public class Config {
         while (scn.hasNext()){
 
             String msg = scn.nextLine();
+            if (msg.contains("//")){
 
-            setConfig(msg);
+            }else {
+                setConfig(msg);
+            }
         }
     }
     private static void setConfig(String msg){
-        System.out.println(msg);
-        screenMode = msg;
+        if (msg.contains("window")){
+            screenMode = "window";
+        }else if (msg.contains("fullScreen")){
+            screenMode = "fullScreen";
+        }
+
+        if (msg.contains("volume")){
+            String[] temp = msg.split(" ");
+            volume = Integer.parseInt(temp[1]);
+        }
+
     }
 
 }
