@@ -27,9 +27,9 @@ public class SolidArea {
         for (Tile tile : tiles) {
             if (tile.collision()) {
                 tilesInVisibleArea++;
-                playerVisible(35, 64, tile);
+                playerVisible(tile);
                 for (Bullet bullet : bullets.getBullets()) {
-                    bulletVisible(bullet,35,64,tile);
+                    bulletVisible(bullet,tile);
                 }
             }
         }
@@ -43,9 +43,8 @@ public class SolidArea {
         //System.out.println(tilesInVisibleArea);
         tilesInVisibleArea = 0;
     }
-    private void playerVisible(int widthScreen, int heightScreen, Tile tile) {
-        if (tile.getX() > (keyH.getX() + player.getWidth() / 2) - widthScreen - 64 && tile.getX() < (keyH.getX() + player.getWidth() / 2) + widthScreen &&
-                tile.getY() > (keyH.getY() + player.getHeight() / 2) - heightScreen - 32 && tile.getY() < (keyH.getY() + player.getHeight() / 2) + heightScreen) {
+    private void playerVisible(Tile tile) {
+        if (player.getSolidBox().overlaps(tile.getSolidBox())) {
             //System.out.println("XY");
             collisionPlayer(tile);
         }else{
@@ -89,9 +88,8 @@ public class SolidArea {
         }
     }
 
-    private void bulletVisible(Bullet bullet, int widthScreen, int heightScreen, Tile tile) {
-        if (tile.getX() > (bullet.getX() + bullet.getWidth() / 2) - widthScreen - 64 && tile.getX() < (bullet.getX() + bullet.getWidth() / 2) + widthScreen &&
-                tile.getY() > (bullet.getY() + bullet.getHeight() / 2) - heightScreen - 32 && tile.getY() < (bullet.getY() + bullet.getHeight() / 2) + heightScreen) {
+    private void bulletVisible(Bullet bullet, Tile tile) {
+        if (bullet.getSolidBox().overlaps(tile.getSolidBox())) {
             //System.out.println("XY");
             bullet.setFinish(true);
         }

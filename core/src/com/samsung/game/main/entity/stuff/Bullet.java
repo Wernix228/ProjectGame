@@ -2,27 +2,32 @@ package com.samsung.game.main.entity.stuff;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.samsung.game.main.entity.Entity;
 
 public class Bullet extends Entity {
 
     private int speed = 1;
     private boolean finish=false;
-    private int lifeEnd=1000-7;
+    private int lifeEnd=150;
     private int life=0;
     private String direction;
 
     public Bullet(String texture,int x, int y, String direction, int speed) {
         this.img = new Texture(texture);
         this.batch = new SpriteBatch();
-        this.x = x;
-        this.y = y;
+        this.x = x+width/3;
+        this.y = y+height/3;
+        this.width=16*scale;
+        this.height=16*scale;
         this.speed = speed;
         this.direction=direction;
+        this.solidBox=new Rectangle();
     }
 
     public void render() {
         draw();
+        solidBox.set(x,y,width,height);
     }
 
     public void dispose() {

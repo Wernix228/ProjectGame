@@ -140,7 +140,7 @@ public class KeyHandler {
         return Gdx.input.getY() > Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 1.88f && Gdx.input.getX() < Gdx.graphics.getWidth() / 5.12f;
     }
     private void attack(){
-        bullets.createBullet("textures/player/stuff/bullet.png",x,y,direction,2);
+        bullets.createBullet("textures/player/stuff/bullet.png",x,y,direction,15);
     }
 
     private final String platform;

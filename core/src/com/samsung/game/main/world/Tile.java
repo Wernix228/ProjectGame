@@ -2,6 +2,7 @@ package com.samsung.game.main.world;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.samsung.game.main.KeyHandler;
 import com.samsung.game.main.entity.Player;
 
@@ -13,7 +14,7 @@ public class Tile {
     private final int scale = 2;
     private final int tileSize = defaultSize * scale;
     private boolean solid;
-
+    private Rectangle solidBox;
     private final String sprite;
     private SpriteBatch batch;
     private Texture texture;
@@ -22,6 +23,7 @@ public class Tile {
         this.x = x * tileSize;
         this.y = y * tileSize;
         this.sprite = sprite;
+        solidBox = new Rectangle();
         loadSprite();
     }
 
@@ -30,6 +32,7 @@ public class Tile {
                 y > (keyH.getY() + player.getHeight() / 2) - heightScreen - 32 && y < (keyH.getY() + player.getHeight() / 2) + heightScreen) {
             batch.begin();
             batch.draw(texture, x, y, tileSize, tileSize);
+            solidBox.set(x,y,tileSize,tileSize);
             batch.end();
         }
     }
@@ -57,6 +60,10 @@ public class Tile {
 
     public int getTileSize() {
         return tileSize;
+    }
+
+    public Rectangle getSolidBox() {
+        return solidBox;
     }
 
     private void loadSprite() {

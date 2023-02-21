@@ -3,12 +3,15 @@ package com.samsung.game.main.entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.samsung.game.main.KeyHandler;
 
 public class Entity {
     protected KeyHandler keyH;
     protected SpriteBatch batch;
     protected Texture img;
+
+    protected Rectangle solidBox;
 
     protected int originalWidth = 32;
     protected int originalHeight = 32;
@@ -31,5 +34,9 @@ public class Entity {
 
     public SpriteBatch getBatch() {
         return batch;
+    }
+
+    public Rectangle getSolidBox() {
+        return solidBox;
     }
 }

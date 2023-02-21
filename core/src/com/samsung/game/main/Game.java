@@ -30,12 +30,14 @@ public class Game extends ApplicationAdapter {
 
     @Override
     public void create() {
-        Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+        config = new Config("config.txt");
+        if (Config.screenMode.equals("fullScreen")){
+            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+        }
         bullets = new Bullets();
-        keyH = new KeyHandler(200, -200, 4, platform, bullets);
-//        config = new Config("config.txt");
+        keyH = new KeyHandler(200, -200, 2, platform, bullets);
         player = new Player(keyH, "textures/player/player.png");
-        map = new Map("labirint");
+        map = new Map("map50");
         camera = new OrthographicCamera(1024 * 2, 576 * 2); //16*2 9*2 tiles
         solidArea = new SolidArea(map, keyH, player,bullets);
         inteface = new Inteface("interface/shadow0.1.png");
