@@ -9,7 +9,7 @@ public class Bullet extends Entity {
 
     private int speed = 1;
     private boolean finish=false;
-    private int lifeEnd=150;
+    private int lifeEnd=30;
     private int life=0;
     private String direction;
 

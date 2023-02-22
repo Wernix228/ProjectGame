@@ -8,8 +8,6 @@ import com.samsung.game.main.KeyHandler;
 
 public class Player extends Entity {
 
-    private Rectangle visibleArea = new Rectangle();
-
     public Player(KeyHandler keyH, String texture) {
         this.keyH = keyH;
         this.img = new Texture(texture); // "textures/player/player.png"
@@ -22,7 +20,6 @@ public class Player extends Entity {
         y = keyH.getY();
         draw();
         solidBox.set(x,y,width,height);
-        visibleArea.set(x-(Gdx.graphics.getWidth()/2)-100,y-(Gdx.graphics.getHeight()/2)-100, Gdx.graphics.getWidth()+200,Gdx.graphics.getHeight()+200);
     }
 
     public void dispose() {
@@ -34,9 +31,5 @@ public class Player extends Entity {
         batch.begin();
         batch.draw(img, x, y, width, height);
         batch.end();
-    }
-
-    public Rectangle getVisibleArea() {
-        return visibleArea;
     }
 }

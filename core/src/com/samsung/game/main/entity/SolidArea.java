@@ -13,14 +13,16 @@ public class SolidArea {
     private KeyHandler keyH;
     private Player player;
     private Bullets bullets;
+    private NPCs npcs;
     private boolean collisionOn = false;
     private int tilesInCollisionArea;
 
-    public SolidArea(Map map, KeyHandler keyH, Player player, Bullets bullets) {
+    public SolidArea(Map map, KeyHandler keyH, Player player, Bullets bullets, NPCs npcs) {
         tiles = map.getTiles();
         this.keyH = keyH;
         this.player = player;
         this.bullets=bullets;
+        this.npcs=npcs;
     }
 
     public void render() {
@@ -29,7 +31,10 @@ public class SolidArea {
                 tilesInCollisionArea++;
                 playerVisible(tile);
                 for (Bullet bullet : bullets.getBullets()) {
-                    bulletVisible(bullet,tile);
+                    bulletCollision(bullet,tile);
+                }
+                for (NPC npc : npcs.getNPCs()) {
+                    NPCVisible(npc, tile);
                 }
             }
         }
@@ -86,9 +91,71 @@ public class SolidArea {
         }
     }
 
-    private void bulletVisible(Bullet bullet, Tile tile) {
+    private void bulletCollision(Bullet bullet, Tile tile) {
         if (bullet.getSolidBox().overlaps(tile.getSolidBox())) {
             bullet.setFinish(true);
+        }
+    }
+
+    private void NPCVisible(NPC npc, Tile tile) {
+        if (npc.getSolidBox().overlaps(tile.getSolidBox())) {
+            collisionNPCwithTile(npc, tile);
+            npc.changeDirection();
+        }
+        if(npc.getSolidBox().overlaps(player.getSolidBox())){
+            collisionNPCwithPlayer(npc);
+            npc.changeDirection();
+        }
+        for (Bullet bullet : bullets.getBullets()) {
+            if(npc.getSolidBox().overlaps(bullet.getSolidBox()) && !bullet.getFinish() && !npc.getDead()){
+                npc.setDead(true);
+                bullet.setFinish(true);
+            }
+        }
+    }
+
+    private void collisionNPCwithTile(NPC npc,Tile tile) {
+
+        if (npc.getY() <= tile.getY() + tile.getTileSize()-10 && npc.getY() + npc.getHeight() > tile.getY()+10) {
+            if (npc.getX() <= tile.getX() + tile.getTileSize() && npc.getX() > tile.getX()) {
+                npc.setDirectionBAN("left");
+                npc.setX(npc.getX()+2);
+            }
+            if (npc.getX() + npc.getWidth() >= tile.getX() && npc.getX() + npc.getWidth() < tile.getX() + tile.getTileSize()) {
+                npc.setDirectionBAN("right");
+                npc.setX(npc.getX()-2);
+            }
+        }
+
+        if (npc.getX() <= tile.getX() + tile.getTileSize()-10 && npc.getX() + npc.getWidth() > tile.getX()+10) {
+            if (npc.getY() <= tile.getY() + tile.getTileSize() && npc.getY() > tile.getY()) {
+                npc.setDirectionBAN("bottom");
+                npc.setY(npc.getY()+2);
+            }
+            if (npc.getY() + npc.getHeight() >= tile.getY() && npc.getY() + npc.getHeight() < tile.getY() + tile.getTileSize()) {
+                npc.setDirectionBAN("top");
+                npc.setY(npc.getY()-2);
+            }
+        }
+    }
+    private void collisionNPCwithPlayer(NPC npc) {
+
+        if (npc.getY() <= keyH.getY() + player.getHeight()-10 && npc.getY() + npc.getHeight() > keyH.getY()+10) {
+            if (npc.getX() <= keyH.getX() + player.getWidth() && npc.getX() > keyH.getX()) {
+                npc.setDirectionBAN("left");
+            }
+            if (npc.getX() + npc.getWidth() >= keyH.getX() && npc.getX() + npc.getWidth() < keyH.getX() + player.getWidth()) {
+                npc.setDirectionBAN("right");
+            }
+        }
+
+        if (npc.getX() <= keyH.getX() + player.getWidth()-10 && npc.getX() + npc.getWidth() > keyH.getX()+10) {
+            if (npc.getY() <= keyH.getY() + player.getHeight() && npc.getY() > keyH.getY()) {
+                npc.setDirectionBAN("bottom");
+            }
+            if (npc.getY() + npc.getHeight() >= keyH.getY() && npc.getY() + npc.getHeight() < keyH.getY() + player.getHeight()) {
+                npc.setDirectionBAN("top");
+            }
         }
     }
 }

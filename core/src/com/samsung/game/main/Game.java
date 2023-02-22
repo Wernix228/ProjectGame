@@ -6,6 +6,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
+import com.samsung.game.main.entity.NPC;
+import com.samsung.game.main.entity.NPCs;
 import com.samsung.game.main.entity.Player;
 import com.samsung.game.main.entity.SolidArea;
 import com.samsung.game.main.entity.stuff.Bullet;
@@ -23,6 +25,7 @@ public class Game extends ApplicationAdapter {
     Bullets bullets;
     Config config;
     Inteface inteface;
+    Creater creater;
 
     public Game(String platform) {
         this.platform = platform;
@@ -40,7 +43,9 @@ public class Game extends ApplicationAdapter {
         keyH = new KeyHandler(200, -200, 4, platform, bullets);
         map = new Map("labirint");
         player = new Player(keyH, "textures/player/player.png");
-        solidArea = new SolidArea(map, keyH, player,bullets);
+        creater = new Creater();
+        solidArea = new SolidArea(map, keyH, player,bullets,creater.getNpcs());
+        creater.create();
         setUpCamera();
     }
 
@@ -62,6 +67,7 @@ public class Game extends ApplicationAdapter {
         map.render(keyH, player);
         solidArea.render();
         player.render();
+        creater.render(player, keyH);
         bullets.render();
         inteface.render();
         showFPS();
@@ -81,6 +87,7 @@ public class Game extends ApplicationAdapter {
     @Override
     public void dispose() {
         player.dispose();
+        creater.dispose();
         map.dispose();
         bullets.dispose();
     }
@@ -115,6 +122,9 @@ public class Game extends ApplicationAdapter {
     private void setUpCamera() {
         camera.update();
         player.getBatch().setProjectionMatrix(camera.combined);
+        for (NPC npc : creater.getNpcs().getNPCs()) {
+            npc.getBatch().setProjectionMatrix(camera.combined);
+        }
         for (Tile tile : map.getTiles()) {
             tile.getBatch().setProjectionMatrix(camera.combined);
         }
