@@ -1,5 +1,6 @@
 package com.samsung.game.main;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.samsung.game.main.entity.NPCs;
 import com.samsung.game.main.entity.Player;
 
@@ -11,7 +12,7 @@ public class Creater {
     public void create(){
         loadConfig();
         for (int i = 0; i < entitys; i++) {
-            npcs.createNPC(96,-96,"textures/player/clearCharacter.png",2,50,"top");
+            npcs.createNPC(96,-96,MathUtils.random(0,3),2,50,"top");
         }
     }
 
@@ -25,6 +26,10 @@ public class Creater {
 
     public NPCs getNpcs() {
         return npcs;
+    }
+
+    public void getInfo(){
+        npcs.getInfo();
     }
 
     private void loadConfig(){

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class NPCs {
     Array<NPC> npcs = new Array<>();
+    int num = 0;
 
     public void render(KeyHandler keyH, Player player){
         for (NPC npc:npcs) {
@@ -19,8 +20,9 @@ public class NPCs {
         }
     }
 
-    public void createNPC(int x, int y, String texture, int speed, int cooldownChangeDirection,String startDirection) {
-        NPC npc = new NPC(x,y,texture,speed,cooldownChangeDirection,startDirection);
+    public void createNPC(int x, int y, int texture, int speed, int cooldownChangeDirection,String startDirection) {
+        num++;
+        NPC npc = new NPC(x,y,texture,speed,cooldownChangeDirection,startDirection,num);
         npcs.add(npc);
     }
     public void dispose(){
@@ -31,5 +33,10 @@ public class NPCs {
 
     public Array<NPC> getNPCs() {
         return npcs;
+    }
+    public void getInfo(){
+        for (NPC npc:npcs) {
+            npc.getLocation();
+        }
     }
 }

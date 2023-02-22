@@ -114,6 +114,7 @@ public class Game extends ApplicationAdapter {
         }
         if (timer >= 1000000000) {
             System.out.println("FPS:" + drawCount);
+            creater.getInfo();
             drawCount = 0;
             timer = 0;
         }

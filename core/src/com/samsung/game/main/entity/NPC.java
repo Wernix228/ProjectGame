@@ -16,9 +16,11 @@ public class NPC extends Entity {
     private int cooldownChangeDirection;
     private int changeDirection = 0;
     private boolean dead = false;
+    private int num;
+    private String color;
 
-    public NPC(int x, int y, String texture, int speed, int cooldownChangeDirection, String startDirection) {
-        this.img = new Texture(texture);
+    public NPC(int x, int y, int textureNum, int speed, int cooldownChangeDirection, String startDirection,int num) {
+        this.img = new Texture(texture(textureNum));
         this.batch = new SpriteBatch();
         this.speed = speed;
         this.cooldownChangeDirection = cooldownChangeDirection;
@@ -27,6 +29,7 @@ public class NPC extends Entity {
         direction = startDirection;
         this.startDirection = startDirection;
         solidBox = new Rectangle();
+        this.num = num;
     }
 
     public void render(KeyHandler keyH, Player player, int widthScreen, int heightScreen) {
@@ -42,6 +45,7 @@ public class NPC extends Entity {
                 solidBox.set(x, y, width, height);
             }
         }
+
     }
 
     public void dispose() {
@@ -115,5 +119,23 @@ public class NPC extends Entity {
 
     public boolean getDead() {
         return dead;
+    }
+    public void getLocation(){
+        System.out.println("NPC:" + num + "  X:" + x + " Y:" + y + "   color:" + color);
+    }
+    private String texture(int texture){
+        if (texture==0){
+            color = "null";
+            return "textures/player/clearCharacter.png";
+        }else if (texture==1){
+            color = "Blue";
+            return "textures/player/clearCharacterBlue.png";
+        }else if (texture==2){
+            color = "Green";
+            return "textures/player/clearCharacterGreen.png";
+        }else {
+            color = "Red";
+            return "textures/player/clearCharacterRed.png";
+        }
     }
 }
