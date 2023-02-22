@@ -3,6 +3,7 @@ package com.samsung.game.main.world;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.samsung.game.main.Config;
 import com.samsung.game.main.KeyHandler;
 import com.samsung.game.main.entity.Player;
 
@@ -28,11 +29,18 @@ public class Tile {
     }
 
     public void draw(int widthScreen, int heightScreen, KeyHandler keyH, Player player) {
+        if (!Config.renderMap) {
         if (x > (keyH.getX() + player.getWidth() / 2) - widthScreen && x < (keyH.getX() + player.getWidth() / 2) + widthScreen &&
                 y > (keyH.getY() + player.getHeight() / 2) - heightScreen - 32 && y < (keyH.getY() + player.getHeight() / 2) + heightScreen) {
             batch.begin();
             batch.draw(texture, x, y, tileSize, tileSize);
-            solidBox.set(x,y,tileSize,tileSize);
+            solidBox.set(x, y, tileSize, tileSize);
+            batch.end();
+        }
+        }else {
+            batch.begin();
+            batch.draw(texture, x, y, tileSize, tileSize);
+            solidBox.set(x, y, tileSize, tileSize);
             batch.end();
         }
     }

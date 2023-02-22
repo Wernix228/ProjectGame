@@ -2,7 +2,12 @@ package com.samsung.game.main;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.files.FileHandle;
+import com.samsung.game.main.entity.NPCs;
 import com.samsung.game.main.entity.stuff.Bullets;
+
+import java.awt.MouseInfo;
+import java.awt.Point;
 
 public class KeyHandler {
     private int x;
@@ -15,9 +20,9 @@ public class KeyHandler {
     private boolean collisionLeft = false;
     private boolean collisionRight = false;
     private String direction = "top";
-    private final Bullets bullets;
-    private final boolean attack = false;
-    private final long cooldownAttack = 100;
+    private Bullets bullets;
+    private boolean attack = false;
+    private long cooldownAttack = 20;
     private long cooldown = 0;
 
     public KeyHandler(int playerX, int playerY, int playerSpeed, String platform, Bullets bullets) {
@@ -121,9 +126,6 @@ public class KeyHandler {
         }
         if (Gdx.input.isKeyPressed(Input.Keys.Q)) {
             cooldown++;
-            if (cooldown % 25 == 0){
-                System.out.println((100-cooldown) / 25);
-            }
         }
 
         if (cooldown >= cooldownAttack) {

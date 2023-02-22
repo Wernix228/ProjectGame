@@ -41,7 +41,7 @@ public class Game extends ApplicationAdapter {
         inteface = new Inteface("interface/shadow0.1.png");
         bullets = new Bullets();
         keyH = new KeyHandler(200, -200, 4, platform, bullets);
-        map = new Map("labirint");
+        map = new Map("map50");
         player = new Player(keyH, "textures/player/player.png");
         creater = new Creater();
         solidArea = new SolidArea(map, keyH, player,bullets,creater.getNpcs());

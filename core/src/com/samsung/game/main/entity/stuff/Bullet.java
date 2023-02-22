@@ -26,8 +26,10 @@ public class Bullet extends Entity {
     }
 
     public void render() {
-        draw();
-        solidBox.set(x,y,width,height);
+        if(!finish) {
+            draw();
+            solidBox.set(x, y, width, height);
+        }
     }
 
     public void dispose() {

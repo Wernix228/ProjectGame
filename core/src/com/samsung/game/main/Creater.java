@@ -6,16 +6,17 @@ import com.samsung.game.main.entity.Player;
 public class Creater {
 
     private NPCs npcs = new NPCs();
+    private int entitys = 10;
 
     public void create(){
-        npcs.createNPC(400,-400,"textures/player/clearCharacter.png",2,50,"top");
-        npcs.createNPC(400,-400,"textures/player/clearCharacterRed.png",2,50,"bottom");
-        npcs.createNPC(400,-400,"textures/player/clearCharacterBlue.png",2,50,"left");
-        npcs.createNPC(400,-400,"textures/player/clearCharacterGreen.png",2,50,"right");
+        loadConfig();
+        for (int i = 0; i < entitys; i++) {
+            npcs.createNPC(96,-96,"textures/player/clearCharacter.png",2,50,"top");
+        }
     }
 
     public void render(Player player, KeyHandler keyH){
-        npcs.render(player, keyH);
+        npcs.render(keyH, player);
     }
 
     public void dispose(){
@@ -24,5 +25,10 @@ public class Creater {
 
     public NPCs getNpcs() {
         return npcs;
+    }
+
+    private void loadConfig(){
+        if (Config.entitys != 0)
+        this.entitys = Config.entitys;
     }
 }

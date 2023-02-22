@@ -7,3 +7,5 @@ volume 777
 //В пределах этого файла
 //И игрового процесса
 //
+renderMap false
+entitys 10

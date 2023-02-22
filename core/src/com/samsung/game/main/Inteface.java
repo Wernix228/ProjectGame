@@ -8,6 +8,7 @@ public class Inteface {
 
 
     SpriteBatch batch;
+    Texture joyStick = new Texture("interface/field_touchOld.png");
     Texture shadow;
 
     public Inteface(String shadow){
@@ -21,6 +22,7 @@ public class Inteface {
     private void draw(){
         batch.begin();
         batch.draw(shadow,0,0, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        batch.draw(joyStick,0,0, Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 1.88f,Gdx.graphics.getWidth() / 5.12f);
         batch.end();
     }
 
