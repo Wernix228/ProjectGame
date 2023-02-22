@@ -28,7 +28,8 @@ public class Creater {
     }
 
     private void loadConfig(){
-        if (Config.entitys != 0)
-        this.entitys = Config.entitys;
+        if (Config.entitys != 0) {
+            this.entitys = Config.entitys;
+        }
     }
 }

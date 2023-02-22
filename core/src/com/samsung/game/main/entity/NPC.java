@@ -16,7 +16,6 @@ public class NPC extends Entity {
     private int cooldownChangeDirection;
     private int changeDirection = 0;
     private boolean dead = false;
-    private static boolean renderMap = Config.renderMap;
 
     public NPC(int x, int y, String texture, int speed, int cooldownChangeDirection, String startDirection) {
         this.img = new Texture(texture);
@@ -31,7 +30,7 @@ public class NPC extends Entity {
     }
 
     public void render(KeyHandler keyH, Player player, int widthScreen, int heightScreen) {
-        if (!renderMap) {
+        if (Config.renderMap) {
             AI();
             draw();
             solidBox.set(x, y, width, height);

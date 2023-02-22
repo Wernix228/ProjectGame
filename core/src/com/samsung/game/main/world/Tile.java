@@ -29,19 +29,19 @@ public class Tile {
     }
 
     public void draw(int widthScreen, int heightScreen, KeyHandler keyH, Player player) {
-        if (!Config.renderMap) {
-        if (x > (keyH.getX() + player.getWidth() / 2) - widthScreen && x < (keyH.getX() + player.getWidth() / 2) + widthScreen &&
-                y > (keyH.getY() + player.getHeight() / 2) - heightScreen - 32 && y < (keyH.getY() + player.getHeight() / 2) + heightScreen) {
+        if (Config.renderMap) {
             batch.begin();
             batch.draw(texture, x, y, tileSize, tileSize);
             solidBox.set(x, y, tileSize, tileSize);
             batch.end();
-        }
         }else {
-            batch.begin();
-            batch.draw(texture, x, y, tileSize, tileSize);
-            solidBox.set(x, y, tileSize, tileSize);
-            batch.end();
+            if (x > (keyH.getX() + player.getWidth() / 2) - widthScreen && x < (keyH.getX() + player.getWidth() / 2) + widthScreen &&
+                    y > (keyH.getY() + player.getHeight() / 2) - heightScreen - 32 && y < (keyH.getY() + player.getHeight() / 2) + heightScreen) {
+                batch.begin();
+                batch.draw(texture, x, y, tileSize, tileSize);
+                solidBox.set(x, y, tileSize, tileSize);
+                batch.end();
+            }
         }
     }
 
