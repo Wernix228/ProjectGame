@@ -1,5 +1,7 @@
-package com.samsung.game.main;
+package com.samsung.game.data;
 
+
+import com.samsung.game.main.KeyHandler;
 
 import java.io.*;
 

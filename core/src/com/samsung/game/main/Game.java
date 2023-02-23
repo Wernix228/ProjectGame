@@ -6,14 +6,16 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
-import com.samsung.game.main.entity.NPC;
-import com.samsung.game.main.entity.NPCs;
-import com.samsung.game.main.entity.Player;
-import com.samsung.game.main.entity.SolidArea;
-import com.samsung.game.main.entity.stuff.Bullet;
-import com.samsung.game.main.entity.stuff.Bullets;
-import com.samsung.game.main.world.Map;
-import com.samsung.game.main.world.Tile;
+import com.samsung.game.data.Config;
+import com.samsung.game.data.SaveLoad;
+import com.samsung.game.entity.Creater;
+import com.samsung.game.entity.NPC.NPC;
+import com.samsung.game.entity.Player;
+import com.samsung.game.entity.SolidArea;
+import com.samsung.game.entity.stuff.Bullet;
+import com.samsung.game.entity.stuff.Bullets;
+import com.samsung.game.world.Map;
+import com.samsung.game.world.Tile;
 
 public class Game extends ApplicationAdapter {
     OrthographicCamera camera;
@@ -67,7 +69,7 @@ public class Game extends ApplicationAdapter {
             map.setMap("map04");
         }
 
-        map.render(keyH, player);
+        map.render(player);
         solidArea.render();
         player.render();
         creater.render(player, keyH);
@@ -124,10 +126,10 @@ public class Game extends ApplicationAdapter {
             drawCount = 0;
             timer = 0;
             seconds++;
-            System.out.println(seconds);
             if (seconds % 5 == 0) {
-                if (Config.autoSave)
-                saveLoad.save();
+                if (Config.autoSave) {
+                    saveLoad.save();
+                }
             }
         }
 

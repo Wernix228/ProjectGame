@@ -24,7 +24,7 @@ public class Inteface {
         batch.begin();
         batch.draw(shadow,0,0, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         if (platform.equals("Android")) {
-            batch.draw(joyStick, 0, 0, Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 1.88f, Gdx.graphics.getWidth() / 5.12f);
+            batch.draw(joyStick, 0, 0, Gdx.graphics.getWidth() / 5.12f,Gdx.graphics.getWidth() / 5.12f);
         }
         batch.end();
     }

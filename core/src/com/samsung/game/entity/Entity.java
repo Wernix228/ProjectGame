@@ -1,4 +1,4 @@
-package com.samsung.game.main.entity;
+package com.samsung.game.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;

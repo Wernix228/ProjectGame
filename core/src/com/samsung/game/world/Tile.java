@@ -1,11 +1,11 @@
-package com.samsung.game.main.world;
+package com.samsung.game.world;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import com.samsung.game.main.Config;
+import com.samsung.game.data.Config;
 import com.samsung.game.main.KeyHandler;
-import com.samsung.game.main.entity.Player;
+import com.samsung.game.entity.Player;
 
 public class Tile {
 
@@ -16,11 +16,11 @@ public class Tile {
     private final int tileSize = defaultSize * scale;
     private boolean solid;
     private Rectangle solidBox;
-    private final String sprite;
+    private final Integer sprite;
     private SpriteBatch batch;
     private Texture texture;
 
-    public Tile(int x, int y, String sprite) {
+    public Tile(int x, int y, int sprite) {
         this.x = x * tileSize;
         this.y = y * tileSize;
         this.sprite = sprite;
@@ -28,21 +28,21 @@ public class Tile {
         loadSprite();
     }
 
-    public void draw(int widthScreen, int heightScreen, KeyHandler keyH, Player player) {
+    public void draw(Player player) {
         if (Config.renderMap) {
             batch.begin();
             batch.draw(texture, x, y, tileSize, tileSize);
             solidBox.set(x, y, tileSize, tileSize);
             batch.end();
-        }else {
-            if (x > (keyH.getX() + player.getWidth() / 2) - widthScreen && x < (keyH.getX() + player.getWidth() / 2) + widthScreen &&
-                    y > (keyH.getY() + player.getHeight() / 2) - heightScreen - 32 && y < (keyH.getY() + player.getHeight() / 2) + heightScreen) {
+        } else {
+            if (player.isVisible()) {
                 batch.begin();
                 batch.draw(texture, x, y, tileSize, tileSize);
                 solidBox.set(x, y, tileSize, tileSize);
                 batch.end();
             }
         }
+
     }
 
     public void dispose() {
@@ -77,15 +77,16 @@ public class Tile {
     private void loadSprite() {
         setCollision(sprite);
         batch = new SpriteBatch();
-        if (Integer.parseInt(sprite) < 10) {
+        if (sprite < 10) {
             texture = new Texture("textures/tiles/00" + sprite + ".png");
-        } else if (Integer.parseInt(sprite) < 100) {
+        } else if (sprite < 100) {
             texture = new Texture("textures/tiles/0" + sprite + ".png");
         } else {
             texture = new Texture("textures/tiles/" + sprite + ".png");
         }
     }
-    private void setCollision(String sprite){
-        this.solid = Integer.parseInt(sprite)>=2 && Integer.parseInt(sprite)<=8;
+
+    private void setCollision(Integer sprite) {
+        this.solid = sprite >= 2 && sprite <= 8;
     }
 }

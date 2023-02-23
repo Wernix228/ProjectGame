@@ -1,11 +1,13 @@
-package com.samsung.game.main.entity;
+package com.samsung.game.entity;
 
 import com.badlogic.gdx.utils.Array;
+import com.samsung.game.entity.NPC.NPC;
+import com.samsung.game.entity.NPC.NPCs;
 import com.samsung.game.main.KeyHandler;
-import com.samsung.game.main.entity.stuff.Bullet;
-import com.samsung.game.main.entity.stuff.Bullets;
-import com.samsung.game.main.world.Map;
-import com.samsung.game.main.world.Tile;
+import com.samsung.game.entity.stuff.Bullet;
+import com.samsung.game.entity.stuff.Bullets;
+import com.samsung.game.world.Map;
+import com.samsung.game.world.Tile;
 
 public class SolidArea {
 
@@ -106,7 +108,7 @@ public class SolidArea {
             }
         }
         for (Bullet bullet : bullets.getBullets()) {
-            if(npc.getSolidBox().overlaps(bullet.getSolidBox()) && bullet.getFinish() && npc.getDead()){
+            if(npc.getSolidBox().overlaps(bullet.getSolidBox()) && !bullet.getFinish() && !npc.getDead()){
                 npc.setDead(true);
                 bullet.setFinish(true);
             }

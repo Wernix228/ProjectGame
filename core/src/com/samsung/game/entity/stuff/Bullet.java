@@ -1,9 +1,9 @@
-package com.samsung.game.main.entity.stuff;
+package com.samsung.game.entity.stuff;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import com.samsung.game.main.entity.Entity;
+import com.samsung.game.entity.Entity;
 
 public class Bullet extends Entity {
 
@@ -68,7 +68,7 @@ public class Bullet extends Entity {
     }
 
     public boolean getFinish() {
-        return !finish;
+        return finish;
     }
 
     public void setFinish(boolean finish) {

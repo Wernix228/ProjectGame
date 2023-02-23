@@ -1,4 +1,4 @@
-package com.samsung.game.main.entity.stuff;
+package com.samsung.game.entity.stuff;
 
 import com.badlogic.gdx.utils.Array;
 
@@ -8,7 +8,7 @@ public class Bullets {
 
     public void render(){
         for (Bullet bullet:bullets) {
-            if(bullet.getFinish()) {
+            if(!bullet.getFinish()) {
                 bullet.render();
             }else {
                 bullets.removeValue(bullet,false);

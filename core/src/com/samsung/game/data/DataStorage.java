@@ -1,4 +1,4 @@
-package com.samsung.game.main;
+package com.samsung.game.data;
 
 import java.io.Serializable;
 

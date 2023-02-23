@@ -1,8 +1,9 @@
-package com.samsung.game.main;
+package com.samsung.game.entity;
 
 import com.badlogic.gdx.math.MathUtils;
-import com.samsung.game.main.entity.NPCs;
-import com.samsung.game.main.entity.Player;
+import com.samsung.game.data.Config;
+import com.samsung.game.entity.NPC.NPCs;
+import com.samsung.game.main.KeyHandler;
 
 public class Creater {
 

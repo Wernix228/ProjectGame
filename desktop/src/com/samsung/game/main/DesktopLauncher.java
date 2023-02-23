@@ -2,6 +2,7 @@ package com.samsung.game.main;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.samsung.game.data.Config;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;

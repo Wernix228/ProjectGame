@@ -9,4 +9,7 @@ volume 777
 //
 renderMap false
 entitys 10
-autoSave false
+autoSave true
+//
+//Говнокод
+//

@@ -2,12 +2,8 @@ package com.samsung.game.main;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.files.FileHandle;
-import com.samsung.game.main.entity.NPCs;
-import com.samsung.game.main.entity.stuff.Bullets;
 
-import java.awt.MouseInfo;
-import java.awt.Point;
+import com.samsung.game.entity.stuff.Bullets;
 
 public class KeyHandler {
     private int x;

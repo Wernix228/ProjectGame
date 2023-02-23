@@ -1,10 +1,12 @@
-package com.samsung.game.main.entity;
+package com.samsung.game.entity.NPC;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
-import com.samsung.game.main.Config;
+import com.samsung.game.entity.Entity;
+import com.samsung.game.entity.Player;
+import com.samsung.game.data.Config;
 import com.samsung.game.main.KeyHandler;
 
 public class NPC extends Entity {
@@ -115,7 +117,7 @@ public class NPC extends Entity {
     }
 
     public boolean getDead() {
-        return !dead;
+        return dead;
     }
     public void getLocation(){
         System.out.println("NPC:" + num + "  X:" + x + " Y:" + y + "   color:" + color);
