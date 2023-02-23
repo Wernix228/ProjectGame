@@ -28,7 +28,7 @@ public class SaveLoad {
                     System.out.println("save created");
                 }
 
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(new File("save.dat")));
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(file);
 
                 DataStorage ds = new DataStorage();
 
@@ -48,7 +48,7 @@ public class SaveLoad {
     public void load() {
         if (platform.equals("Desktop")) {
             try {
-                ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(new File("save.dat")));
+                ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file);
 
                 DataStorage ds = (DataStorage) objectInputStream.readObject();
 
