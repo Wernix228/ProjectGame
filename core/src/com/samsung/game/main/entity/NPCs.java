@@ -2,9 +2,6 @@ package com.samsung.game.main.entity;
 
 import com.badlogic.gdx.utils.Array;
 import com.samsung.game.main.KeyHandler;
-import com.samsung.game.main.entity.stuff.Bullet;
-
-import java.util.ArrayList;
 
 public class NPCs {
     Array<NPC> npcs = new Array<>();
@@ -12,7 +9,7 @@ public class NPCs {
 
     public void render(KeyHandler keyH, Player player){
         for (NPC npc:npcs) {
-            if(!npc.getDead()) {
+            if(npc.getDead()) {
                 npc.render(keyH, player, 32 * 34, 32 * 19);
             }else {
                 npcs.removeValue(npc,false);

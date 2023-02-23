@@ -72,6 +72,13 @@ public class KeyHandler {
         this.collisionRight = collisionRight;
     }
 
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
 
     private void setUpAndroid() {
         if (Gdx.input.isTouched(0) && touchLimit() || Gdx.input.isTouched(1)) {

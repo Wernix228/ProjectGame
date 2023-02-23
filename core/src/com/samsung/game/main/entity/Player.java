@@ -1,6 +1,5 @@
 package com.samsung.game.main.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -19,7 +18,7 @@ public class Player extends Entity {
         x = keyH.getX();
         y = keyH.getY();
         draw();
-        solidBox.set(x,y,width,height);
+        solidBox.set(x, y, width, height);
     }
 
     public void dispose() {

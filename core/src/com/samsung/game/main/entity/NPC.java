@@ -10,13 +10,13 @@ import com.samsung.game.main.KeyHandler;
 public class NPC extends Entity {
 
     private String direction;
-    private String startDirection;
+    private final String startDirection;
     private String directionBAN = "nothing";
-    private int speed;
-    private int cooldownChangeDirection;
+    private final int speed;
+    private final int cooldownChangeDirection;
     private int changeDirection = 0;
     private boolean dead = false;
-    private int num;
+    private final int num;
     private String color;
 
     public NPC(int x, int y, int textureNum, int speed, int cooldownChangeDirection, String startDirection,int num) {
@@ -54,14 +54,19 @@ public class NPC extends Entity {
     }
 
     private void draw() {
-        if (direction.equals("top")) {
-            y += speed;
-        } else if (direction.equals("bottom")) {
-            y -= speed;
-        } else if (direction.equals("left")) {
-            x -= speed;
-        } else if (direction.equals("right")) {
-            x += speed;
+        switch (direction) {
+            case "top":
+                y += speed;
+                break;
+            case "bottom":
+                y -= speed;
+                break;
+            case "left":
+                x -= speed;
+                break;
+            case "right":
+                x += speed;
+                break;
         }
         batch.begin();
         batch.draw(img, x, y, width, height);
@@ -83,14 +88,6 @@ public class NPC extends Entity {
         else if (directionRandom == 3 && !directionBAN.equals("left")) direction = "left";
         else if (directionRandom == 4 && !directionBAN.equals("right")) direction = "right";
         else if (directionBAN.equals("nothing")) direction = startDirection;
-    }
-
-    public String getDirection() {
-        return direction;
-    }
-
-    public void setDirection(String direction) {
-        this.direction = direction;
     }
 
     public void setDirectionBAN(String directionBAN) {
@@ -118,7 +115,7 @@ public class NPC extends Entity {
     }
 
     public boolean getDead() {
-        return dead;
+        return !dead;
     }
     public void getLocation(){
         System.out.println("NPC:" + num + "  X:" + x + " Y:" + y + "   color:" + color);

@@ -7,11 +7,10 @@ import com.samsung.game.main.entity.Entity;
 
 public class Bullet extends Entity {
 
-    private int speed = 1;
+    private final int speed;
     private boolean finish=false;
-    private int lifeEnd=30;
     private int life=0;
-    private String direction;
+    private final String direction;
 
     public Bullet(String texture,int x, int y, String direction, int speed) {
         this.img = new Texture(texture);
@@ -37,27 +36,25 @@ public class Bullet extends Entity {
         img.dispose();
     }
 
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
     private void draw() {
 
-        if(life>=lifeEnd) {
+        int lifeEnd = 30;
+        if(life>= lifeEnd) {
             finish=true;
         }else{
-            if (direction.equals("top")) {
-                y += speed;
-            }else if (direction.equals("bottom")) {
-                y -= speed;
-            }else if (direction.equals("left")) {
-                x -= speed;
-            }else if (direction.equals("right")) {
-                x += speed;
+            switch (direction) {
+                case "top":
+                    y += speed;
+                    break;
+                case "bottom":
+                    y -= speed;
+                    break;
+                case "left":
+                    x -= speed;
+                    break;
+                case "right":
+                    x += speed;
+                    break;
             }
         }
         batch.begin();
@@ -71,13 +68,11 @@ public class Bullet extends Entity {
     }
 
     public boolean getFinish() {
-        return finish;
+        return !finish;
     }
 
     public void setFinish(boolean finish) {
         this.finish = finish;
     }
 
-    public int getX(){return x;}
-    public int getY(){return y;}
 }

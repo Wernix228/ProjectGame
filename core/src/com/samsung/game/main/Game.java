@@ -26,6 +26,7 @@ public class Game extends ApplicationAdapter {
     Config config;
     Inteface inteface;
     Creater creater;
+    SaveLoad saveLoad;
 
     public Game(String platform) {
         this.platform = platform;
@@ -38,7 +39,7 @@ public class Game extends ApplicationAdapter {
             Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
         }
         camera = new OrthographicCamera(1024 * 2, 576 * 2); //16*2 9*2 tiles
-        inteface = new Inteface("interface/shadow0.1.png");
+        inteface = new Inteface("interface/shadow0.1.png",platform);
         bullets = new Bullets();
         keyH = new KeyHandler(200, -200, 4, platform, bullets);
         map = new Map("map50");
@@ -47,6 +48,8 @@ public class Game extends ApplicationAdapter {
         solidArea = new SolidArea(map, keyH, player,bullets,creater.getNpcs());
         creater.create();
         setUpCamera();
+        saveLoad = new SaveLoad(platform,keyH);
+        saveLoad.load();
     }
 
     @Override
@@ -115,6 +118,7 @@ public class Game extends ApplicationAdapter {
         if (timer >= 1000000000) {
             System.out.println("FPS:" + drawCount);
             creater.getInfo();
+            saveLoad.save();
             drawCount = 0;
             timer = 0;
         }

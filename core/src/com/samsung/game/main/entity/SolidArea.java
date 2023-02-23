@@ -9,13 +9,14 @@ import com.samsung.game.main.world.Tile;
 
 public class SolidArea {
 
-    private Array<Tile> tiles;
-    private KeyHandler keyH;
-    private Player player;
-    private Bullets bullets;
-    private NPCs npcs;
+    private final Array<Tile> tiles;
+    private final KeyHandler keyH;
+    private final Player player;
+    private final Bullets bullets;
+    private final NPCs npcs;
     private boolean collisionOn = false;
     private int tilesInCollisionArea;
+    private boolean isPlayerCollsionNPC = true;
 
     public SolidArea(Map map, KeyHandler keyH, Player player, Bullets bullets, NPCs npcs) {
         tiles = map.getTiles();
@@ -98,12 +99,14 @@ public class SolidArea {
             collisionNPCwithTile(npc, tile);
             npc.changeDirection();
         }
-//        if(npc.getSolidBox().overlaps(player.getSolidBox())){
-//            collisionNPCwithPlayer(npc);
-//            npc.changeDirection();
-//        }
+        if (isPlayerCollsionNPC) {
+            if (npc.getSolidBox().overlaps(player.getSolidBox())) {
+                collisionNPCwithPlayer(npc);
+                npc.changeDirection();
+            }
+        }
         for (Bullet bullet : bullets.getBullets()) {
-            if(npc.getSolidBox().overlaps(bullet.getSolidBox()) && !bullet.getFinish() && !npc.getDead()){
+            if(npc.getSolidBox().overlaps(bullet.getSolidBox()) && bullet.getFinish() && npc.getDead()){
                 npc.setDead(true);
                 bullet.setFinish(true);
             }
