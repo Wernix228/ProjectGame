@@ -12,7 +12,7 @@ public class Config {
     public static int volume = 2;
     public static boolean renderMap;
     public static int entitys;
-
+    public static boolean autoSave;
     public Config(String config) {
         this.config = config;
         load();
@@ -50,6 +50,10 @@ public class Config {
         if (msg.contains("renderMap")){
             String[] temp = msg.split(" ");
             renderMap = Boolean.parseBoolean(temp[1]);
+        }
+        if (msg.contains("autoSave")){
+            String[] temp = msg.split(" ");
+            autoSave = Boolean.parseBoolean(temp[1]);
         }
 
     }

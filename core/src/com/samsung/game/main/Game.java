@@ -35,20 +35,20 @@ public class Game extends ApplicationAdapter {
     @Override
     public void create() {
         config = new Config("config.txt");
-        if (Config.screenMode.equals("fullScreen")){
+        if (Config.screenMode.equals("fullScreen")) {
             Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
         }
         camera = new OrthographicCamera(1024 * 2, 576 * 2); //16*2 9*2 tiles
-        inteface = new Inteface("interface/shadow0.1.png",platform);
+        inteface = new Inteface("interface/shadow0.1.png", platform);
         bullets = new Bullets();
         keyH = new KeyHandler(200, -200, 4, platform, bullets);
         map = new Map("map50");
         player = new Player(keyH, "textures/player/player.png");
         creater = new Creater();
-        solidArea = new SolidArea(map, keyH, player,bullets,creater.getNpcs());
+        solidArea = new SolidArea(map, keyH, player, bullets, creater.getNpcs());
         creater.create();
         setUpCamera();
-        saveLoad = new SaveLoad(platform,keyH);
+        saveLoad = new SaveLoad(platform, keyH);
         saveLoad.load();
     }
 
@@ -73,13 +73,14 @@ public class Game extends ApplicationAdapter {
         creater.render(player, keyH);
         bullets.render();
         inteface.render();
-        showFPS();
+        slowRender();
 
     }
 
     @Override
     public void pause() {
         super.pause();
+        saveLoad.save();
     }
 
     @Override
@@ -102,9 +103,11 @@ public class Game extends ApplicationAdapter {
     long currentTime;
     long timer = 0;
     int drawCount = 0;
+    int seconds = 0;
 
-    private void showFPS() {
+    private void slowRender() {
         currentTime = System.nanoTime();
+        int oneSec = 1000000000;
 
         delta += (currentTime - lastTime) / drawInterval;
         timer += (currentTime - lastTime);
@@ -115,13 +118,19 @@ public class Game extends ApplicationAdapter {
             delta--;
             drawCount++;
         }
-        if (timer >= 1000000000) {
+        if (timer >= oneSec) {
             System.out.println("FPS:" + drawCount);
-            creater.getInfo();
-            saveLoad.save();
+//            creater.getInfo();
             drawCount = 0;
             timer = 0;
+            seconds++;
+            System.out.println(seconds);
+            if (seconds % 5 == 0) {
+                if (Config.autoSave)
+                saveLoad.save();
+            }
         }
+
     }
 
     private void setUpCamera() {
@@ -133,7 +142,7 @@ public class Game extends ApplicationAdapter {
         for (Tile tile : map.getTiles()) {
             tile.getBatch().setProjectionMatrix(camera.combined);
         }
-        for (Bullet bullet: bullets.getBullets()) {
+        for (Bullet bullet : bullets.getBullets()) {
             bullet.getBatch().setProjectionMatrix(camera.combined);
         }
         camera.position.set(new Vector3(keyH.getX() + player.getWidth() / 2f, keyH.getY() + player.getHeight() / 2f, 0));
