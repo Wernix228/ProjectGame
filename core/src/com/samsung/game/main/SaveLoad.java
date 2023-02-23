@@ -22,12 +22,19 @@ public class SaveLoad {
     public void save() {
         if (platform.equals("Desktop")) {
             try {
+                File file = new File("save.dat");
+                if (!file.exists()){
+                    file.createNewFile();
+                    System.out.println("save created");
+                }
+
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(new File("save.dat")));
 
                 DataStorage ds = new DataStorage();
 
                 ds.x = keyH.getX();
                 ds.y = keyH.getY();
+                System.out.println("saving");
 
                 objectOutputStream.writeObject(ds);
             } catch (IOException e) {
