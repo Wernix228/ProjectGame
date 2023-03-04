@@ -8,11 +8,15 @@ import java.util.Scanner;
 public class Config {
 
     String config;
+
     public static String screenMode = "window";
     public static int volume = 2;
     public static boolean renderMap;
     public static int entitys;
     public static boolean autoSave;
+    public static int scale;
+    public static boolean collisionWithNPC;
+    public static int defaultSize;
     public Config(String config) {
         this.config = config;
         load();
@@ -23,11 +27,8 @@ public class Config {
         InputStream inputStream = file.read();
         Scanner scn = new Scanner(inputStream);
         while (scn.hasNext()){
-
             String msg = scn.nextLine();
-            if (msg.contains("//")){
-
-            }else {
+            if (!msg.contains("//")){
                 setConfig(msg);
             }
         }
@@ -43,7 +44,7 @@ public class Config {
             String[] temp = msg.split(" ");
             volume = Integer.parseInt(temp[1]);
         }
-        if (msg.contains("entitys")){
+        if (msg.contains("entities")){
             String[] temp = msg.split(" ");
             entitys = Integer.parseInt(temp[1]);
         }
@@ -55,7 +56,18 @@ public class Config {
             String[] temp = msg.split(" ");
             autoSave = Boolean.parseBoolean(temp[1]);
         }
-
+        if (msg.contains("scale")){
+            String[] temp = msg.split(" ");
+            scale = Integer.parseInt(temp[1]);
+        }
+        if (msg.contains("collisionWithNPC")){
+            String[] temp = msg.split(" ");
+            collisionWithNPC = Boolean.parseBoolean(temp[1]);
+        }
+        if (msg.contains("defaultSize")){
+            String[] temp = msg.split(" ");
+            defaultSize = Integer.parseInt(temp[1]);
+        }
     }
 
 

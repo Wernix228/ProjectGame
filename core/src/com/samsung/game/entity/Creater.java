@@ -17,8 +17,8 @@ public class Creater {
         }
     }
 
-    public void render(Player player, KeyHandler keyH){
-        npcs.render(keyH, player);
+    public void render(Player player){
+        npcs.render(player);
     }
 
     public void dispose(){

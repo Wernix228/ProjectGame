@@ -1,5 +1,8 @@
 package com.samsung.game.main;
 
+import static com.samsung.game.main.DirectionCollisionLeftRight.*;
+import static com.samsung.game.main.DirectionCollisionTopBottom.*;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
@@ -8,23 +11,17 @@ import com.samsung.game.entity.stuff.Bullets;
 public class KeyHandler {
     private int x;
     private int y;
-    private final int defaultSpeed;
-    private int playerSpeed;
-    private boolean boost;
-    private boolean collisionUp = false;
-    private boolean collisionDown = false;
-    private boolean collisionLeft = false;
-    private boolean collisionRight = false;
+    private final int playerSpeed;
+    private DirectionCollisionTopBottom directionCollisionTopBottom;
+    private DirectionCollisionLeftRight directionCollisionLeftRight;
     private String direction = "top";
-    private Bullets bullets;
-    private boolean attack = false;
-    private long cooldownAttack = 20;
+    private final Bullets bullets;
+    private final long cooldownAttack = 20;
     private long cooldown = 0;
 
     public KeyHandler(int playerX, int playerY, int playerSpeed, String platform, Bullets bullets) {
         this.x = playerX;
         this.y = playerY;
-        this.defaultSpeed = playerSpeed;
         this.playerSpeed = playerSpeed;
         this.platform = platform;
         this.bullets = bullets;
@@ -33,8 +30,7 @@ public class KeyHandler {
     public void render() {
         if (platform.equals("Desktop")) {
             setUpPC();
-        }
-        if (platform.equals("Android")) {
+        } else if (platform.equals("Android")) {
             setUpAndroid();
         }
         setUpOther();
@@ -48,24 +44,22 @@ public class KeyHandler {
         return y;
     }
 
-    public void setCollisionUp(boolean collisionUp) {
-        this.collisionUp = collisionUp;
+    public void setDirectionCollisionTopBottom(DirectionCollisionTopBottom directionCollision) {
+        this.directionCollisionTopBottom = directionCollision;
+    }
+    public void setDirectionCollisionLeftRight(DirectionCollisionLeftRight directionCollision) {
+        this.directionCollisionLeftRight = directionCollision;
     }
 
-    public void setCollisionDown(boolean collisionDown) {
-        this.collisionDown = collisionDown;
+    public DirectionCollisionTopBottom getDirectionCollisionTopBottom() {
+        return directionCollisionTopBottom;
     }
-
-    public void setCollisionLeft(boolean collisionLeft) {
-        this.collisionLeft = collisionLeft;
+    public DirectionCollisionLeftRight getDirectionCollisionLeftRight() {
+        return directionCollisionLeftRight;
     }
 
     public int getPlayerSpeed() {
         return playerSpeed;
-    }
-
-    public void setCollisionRight(boolean collisionRight) {
-        this.collisionRight = collisionRight;
     }
 
     public void setX(int x) {
@@ -78,23 +72,27 @@ public class KeyHandler {
 
     private void setUpAndroid() {
         if (Gdx.input.isTouched(0) && touchLimit() || Gdx.input.isTouched(1)) {
-            if (Gdx.input.getX() < 3 * Gdx.graphics.getWidth() / 15.36f && Gdx.input.getX() > 2 * Gdx.graphics.getWidth() / 15.36f && touchLimit() && !collisionRight) {
+            if (Gdx.input.getX() < 3 * Gdx.graphics.getWidth() / 15.36f && Gdx.input.getX() > 2 * Gdx.graphics.getWidth() / 15.36f
+                    && touchLimit() && getDirectionCollisionLeftRight()!=RIGHT) {
                 x += playerSpeed;
                 direction = "right";
-                setCollisionLeft(false);
-            } else if (Gdx.input.getX() < Gdx.graphics.getWidth() / 15.36f && touchLimit() && !collisionLeft) {
+                setDirectionCollisionLeftRight(NOTHINGLR);
+            } else if (Gdx.input.getX() < Gdx.graphics.getWidth() / 15.36f && touchLimit()
+                    && getDirectionCollisionLeftRight()!=LEFT) {
                 x -= playerSpeed;
                 direction = "left";
-                setCollisionRight(false);
+                setDirectionCollisionLeftRight(NOTHINGLR);
             }
-            if (Gdx.input.getY() > Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 2.88f / 3 && touchLimit() && !collisionDown) {
+            if (Gdx.input.getY() > Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 2.88f / 3 && touchLimit()
+                    && getDirectionCollisionTopBottom()!=BOTTOM) {
                 y -= playerSpeed;
                 direction = "bottom";
-                setCollisionUp(false);
-            } else if (Gdx.input.getY() > Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 2.88f && Gdx.input.getY() < Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 2.88f / 1.5f && touchLimit() && !collisionUp) {
+                setDirectionCollisionTopBottom(NOTHINGTB);
+            } else if (Gdx.input.getY() > Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 2.88f
+                    && Gdx.input.getY() < Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 2.88f / 1.5f && touchLimit() && getDirectionCollisionTopBottom()!=TOP) {
                 y += playerSpeed;
                 direction = "top";
-                setCollisionDown(false);
+                setDirectionCollisionTopBottom(NOTHINGTB);
             }
         }
         if (Gdx.input.isTouched(1) || Gdx.input.isTouched(0) && !touchLimit()) {
@@ -107,25 +105,25 @@ public class KeyHandler {
     }
 
     private void setUpPC() {
-        if (Gdx.input.isKeyPressed(Input.Keys.W) && !collisionUp) {
+        if (Gdx.input.isKeyPressed(Input.Keys.W) && getDirectionCollisionTopBottom()!=TOP) {
             y += playerSpeed;
             direction = "top";
-            setCollisionDown(false);
+            setDirectionCollisionTopBottom(NOTHINGTB);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.S) && !collisionDown) {
+        if (Gdx.input.isKeyPressed(Input.Keys.S) && getDirectionCollisionTopBottom()!=BOTTOM) {
             y -= playerSpeed;
             direction = "bottom";
-            setCollisionUp(false);
+            setDirectionCollisionTopBottom(NOTHINGTB);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.D) && !collisionRight) {
+        if (Gdx.input.isKeyPressed(Input.Keys.D) && getDirectionCollisionLeftRight()!=RIGHT) {
             x += playerSpeed;
             direction = "right";
-            setCollisionLeft(false);
+            setDirectionCollisionLeftRight(NOTHINGLR);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.A) && !collisionLeft) {
+        if (Gdx.input.isKeyPressed(Input.Keys.A) && getDirectionCollisionLeftRight()!=LEFT) {
             x -= playerSpeed;
             direction = "left";
-            setCollisionRight(false);
+            setDirectionCollisionLeftRight(NOTHINGLR);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.Q)) {
             cooldown++;
@@ -135,13 +133,10 @@ public class KeyHandler {
             attack();
             cooldown = 0;
         }
-        //boost = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT);
     }
 
     private void setUpOther() {
-        if (boost) {
-            playerSpeed = defaultSpeed * 2;
-        } else playerSpeed = defaultSpeed;
+
     }
 
     private boolean touchLimit() {

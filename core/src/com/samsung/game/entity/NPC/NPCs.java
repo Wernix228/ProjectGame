@@ -1,6 +1,8 @@
 package com.samsung.game.entity.NPC;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
+import com.samsung.game.data.Config;
 import com.samsung.game.entity.Player;
 import com.samsung.game.main.KeyHandler;
 
@@ -8,10 +10,10 @@ public class NPCs {
     Array<NPC> npcs = new Array<>();
     int num = 0;
 
-    public void render(KeyHandler keyH, Player player){
+    public void render(Player player){
         for (NPC npc:npcs) {
-            if(!npc.getDead()) {
-                npc.render(keyH, player, 32 * 34, 32 * 19);
+            if(!npc.isDead()) {
+                npc.render(player);
             }else {
                 npcs.removeValue(npc,false);
             }

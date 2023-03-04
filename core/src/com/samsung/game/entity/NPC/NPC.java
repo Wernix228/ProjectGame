@@ -9,15 +9,17 @@ import com.samsung.game.entity.Player;
 import com.samsung.game.data.Config;
 import com.samsung.game.main.KeyHandler;
 
+import org.w3c.dom.ls.LSOutput;
+
 public class NPC extends Entity {
 
     private String direction;
     private final String startDirection;
-    private String directionBAN = "nothing";
+    private String blockedDirection = "nothing";
     private final int speed;
     private final int cooldownChangeDirection;
     private int changeDirection = 0;
-    private boolean dead = false;
+    private boolean isDead = false;
     private final int num;
     private String color;
 
@@ -34,14 +36,13 @@ public class NPC extends Entity {
         this.num = num;
     }
 
-    public void render(KeyHandler keyH, Player player, int widthScreen, int heightScreen) {
+    public void render(Player player) {
         if (Config.renderMap) {
             AI();
             draw();
             solidBox.set(x, y, width, height);
         } else {
-            if (x > (keyH.getX() + player.getWidth() / 2) - widthScreen && x < (keyH.getX() + player.getWidth() / 2) + widthScreen &&
-                    y > (keyH.getY() + player.getHeight() / 2) - heightScreen - 32 && y < (keyH.getY() + player.getHeight() / 2) + heightScreen && !dead) {
+            if (player.isVisible(x,y)) {
                 AI();
                 draw();
                 solidBox.set(x, y, width, height);
@@ -85,15 +86,15 @@ public class NPC extends Entity {
 
     public void changeDirection() {
         int directionRandom = (int) MathUtils.random(1, 16);
-        if (directionRandom == 1 && !directionBAN.equals("top")) direction = "top";
-        else if (directionRandom == 2 && !directionBAN.equals("bottom")) direction = "bottom";
-        else if (directionRandom == 3 && !directionBAN.equals("left")) direction = "left";
-        else if (directionRandom == 4 && !directionBAN.equals("right")) direction = "right";
-        else if (directionBAN.equals("nothing")) direction = startDirection;
+        if (directionRandom == 1 && !blockedDirection.equals("top")) direction = "top";
+        else if (directionRandom == 2 && !blockedDirection.equals("bottom")) direction = "bottom";
+        else if (directionRandom == 3 && !blockedDirection.equals("left")) direction = "left";
+        else if (directionRandom == 4 && !blockedDirection.equals("right")) direction = "right";
+        else if (blockedDirection.equals("nothing")) direction = startDirection;
     }
 
-    public void setDirectionBAN(String directionBAN) {
-        this.directionBAN = directionBAN;
+    public void setDirectionBlocked(String directionBAN) {
+        this.blockedDirection = directionBAN;
     }
 
     public int getX() {
@@ -113,15 +114,20 @@ public class NPC extends Entity {
     }
 
     public void setDead(boolean dead) {
-        this.dead = dead;
+        this.isDead = dead;
     }
 
-    public boolean getDead() {
-        return dead;
+    public boolean isDead() {
+        return isDead;
     }
     public void getLocation(){
         System.out.println("NPC:" + num + "  X:" + x + " Y:" + y + "   color:" + color);
     }
+
+    public String getDirection() {
+        return direction;
+    }
+
     private String texture(int texture){
         if (texture==0){
             color = "null";

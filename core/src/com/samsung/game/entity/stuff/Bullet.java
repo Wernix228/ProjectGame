@@ -8,27 +8,25 @@ import com.samsung.game.entity.Entity;
 public class Bullet extends Entity {
 
     private final int speed;
-    private boolean finish=false;
-    private int life=0;
+    private boolean finish = false;
+    private int life = 0;
     private final String direction;
 
-    public Bullet(String texture,int x, int y, String direction, int speed) {
+    public Bullet(String texture, int x, int y, String direction, int speed) {
         this.img = new Texture(texture);
         this.batch = new SpriteBatch();
-        this.x = x+width/3;
-        this.y = y+height/3;
-        this.width=16*scale;
-        this.height=16*scale;
+        this.x = x + width / 3;
+        this.y = y + height / 3;
+        this.width = 16 * scale;
+        this.height = 16 * scale;
         this.speed = speed;
-        this.direction=direction;
-        this.solidBox=new Rectangle();
+        this.direction = direction;
+        this.solidBox = new Rectangle();
     }
 
     public void render() {
-        if(!finish) {
-            draw();
-            solidBox.set(x, y, width, height);
-        }
+        draw();
+        solidBox.set(x, y, width, height);
     }
 
     public void dispose() {
@@ -39,9 +37,9 @@ public class Bullet extends Entity {
     private void draw() {
 
         int lifeEnd = 30;
-        if(life>= lifeEnd) {
-            finish=true;
-        }else{
+        if (life >= lifeEnd) {
+            finish = true;
+        } else {
             switch (direction) {
                 case "top":
                     y += speed;

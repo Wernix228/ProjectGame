@@ -1,6 +1,7 @@
 package com.samsung.game.entity.stuff;
 
 import com.badlogic.gdx.utils.Array;
+import com.samsung.game.data.Config;
 
 public class Bullets {
 

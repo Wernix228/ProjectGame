@@ -1,6 +1,11 @@
 package com.samsung.game.entity;
 
+import static com.samsung.game.main.DirectionCollisionTopBottom.*;
+import static com.samsung.game.main.DirectionCollisionLeftRight.*;
+
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+import com.samsung.game.data.Config;
 import com.samsung.game.entity.NPC.NPC;
 import com.samsung.game.entity.NPC.NPCs;
 import com.samsung.game.main.KeyHandler;
@@ -9,154 +14,102 @@ import com.samsung.game.entity.stuff.Bullets;
 import com.samsung.game.world.Map;
 import com.samsung.game.world.Tile;
 
-public class SolidArea {
-
-    private final Array<Tile> tiles;
+public class SolidArea{
     private final KeyHandler keyH;
     private final Player player;
     private final Bullets bullets;
     private final NPCs npcs;
-    private boolean collisionOn = false;
+    private final Map map;
     private int tilesInCollisionArea;
-    private boolean isPlayerCollsionNPC = true;
+    private final boolean isPlayerCollsionNPC = Config.collisionWithNPC;
 
     public SolidArea(Map map, KeyHandler keyH, Player player, Bullets bullets, NPCs npcs) {
-        tiles = map.getTiles();
+        this.map = map;
         this.keyH = keyH;
         this.player = player;
-        this.bullets=bullets;
-        this.npcs=npcs;
+        this.bullets = bullets;
+        this.npcs = npcs;
     }
 
     public void render() {
-        for (Tile tile : tiles) {
-            if (tile.collision()) {
+        for (Rectangle solidBox : map.getTileManeger().getSolidBoxes()) {
+            if (player.isVisible((int) solidBox.x, (int) solidBox.y)) {
                 tilesInCollisionArea++;
-                playerVisible(tile);
+                playerVisible(solidBox);
                 for (Bullet bullet : bullets.getBullets()) {
-                    bulletCollision(bullet,tile);
+                    bulletCollision(bullet, solidBox);
                 }
-                for (NPC npc : npcs.getNPCs()) {
-                    NPCVisible(npc, tile);
-                }
+            }
+            for (NPC npc : npcs.getNPCs()) {
+                NPCVisible(npc, solidBox);
             }
         }
         if (tilesInCollisionArea == 0) {
-            collisionOn = false;
-            keyH.setCollisionLeft(false);
-            keyH.setCollisionRight(false);
-            keyH.setCollisionDown(false);
-            keyH.setCollisionUp(false);
+            keyH.setDirectionCollisionTopBottom(NOTHINGTB);
+            keyH.setDirectionCollisionLeftRight(NOTHINGLR);
         }
         tilesInCollisionArea = 0;
     }
-    private void playerVisible(Tile tile) {
-        if (player.getSolidBox().overlaps(tile.getSolidBox())) {
-            collisionPlayer(tile);
-        }else{
+
+    private void playerVisible(Rectangle solidBox) {
+        if (player.getSolidBox().overlaps(solidBox)) {
+            if (collisionChecker(player.getSolidBox(), solidBox).equals("left"))
+                keyH.setDirectionCollisionLeftRight(LEFT);
+            else if (collisionChecker(player.getSolidBox(), solidBox).equals("right"))
+                keyH.setDirectionCollisionLeftRight(RIGHT);
+            else if (collisionChecker(player.getSolidBox(), solidBox).equals("top"))
+                keyH.setDirectionCollisionTopBottom(TOP);
+            else if (collisionChecker(player.getSolidBox(), solidBox).equals("bottom"))
+                keyH.setDirectionCollisionTopBottom(BOTTOM);
+        } else {
             tilesInCollisionArea--;
         }
     }
 
-    private void collisionPlayer(Tile tile) {
-
-        if (keyH.getY() <= tile.getY() + tile.getTileSize()-10 && keyH.getY() + player.getHeight() > tile.getY()+10) {
-            if (keyH.getX() <= tile.getX() + tile.getTileSize() && keyH.getX() > tile.getX()) {
-                keyH.setCollisionLeft(true);
-                collisionOn=true;
-            } else if(!collisionOn) keyH.setCollisionLeft(false);
-            if (keyH.getX() + player.getWidth() >= tile.getX() && keyH.getX() + player.getWidth() < tile.getX() + tile.getTileSize()) {
-                keyH.setCollisionRight(true);
-                collisionOn=true;
-            } else if(!collisionOn) keyH.setCollisionRight(false);
-        } else if(!collisionOn) {
-            keyH.setCollisionLeft(false);
-            keyH.setCollisionRight(false);
-        }
-
-
-        if (keyH.getX() <= tile.getX() + tile.getTileSize()-10 && keyH.getX() + player.getWidth() > tile.getX()+10) {
-            if (keyH.getY() <= tile.getY() + tile.getTileSize() && keyH.getY() > tile.getY()) {
-                keyH.setCollisionDown(true);
-                collisionOn=true;
-            } else if(!collisionOn) keyH.setCollisionDown(false);
-            if (keyH.getY() + player.getHeight() >= tile.getY() && keyH.getY() + player.getHeight() < tile.getY() + tile.getTileSize()) {
-                keyH.setCollisionUp(true);
-                collisionOn=true;
-            } else if(!collisionOn) keyH.setCollisionUp(false);
-        } else if(!collisionOn) {
-            keyH.setCollisionDown(false);
-            keyH.setCollisionUp(false);
-        }
-    }
-
-    private void bulletCollision(Bullet bullet, Tile tile) {
-        if (bullet.getSolidBox().overlaps(tile.getSolidBox())) {
+    private void bulletCollision(Bullet bullet, Rectangle solidBox) {
+        if (bullet.getSolidBox().overlaps(solidBox)) {
             bullet.setFinish(true);
         }
     }
 
-    private void NPCVisible(NPC npc, Tile tile) {
-        if (npc.getSolidBox().overlaps(tile.getSolidBox())) {
-            collisionNPCwithTile(npc, tile);
+    private void NPCVisible(NPC npc, Rectangle solidBox) {
+        if (npc.getSolidBox().overlaps(solidBox)) {
+            npc.setDirectionBlocked(collisionChecker(npc.getSolidBox(), solidBox));
             npc.changeDirection();
         }
         if (isPlayerCollsionNPC) {
             if (npc.getSolidBox().overlaps(player.getSolidBox())) {
-                collisionNPCwithPlayer(npc);
+                npc.setDirectionBlocked(collisionChecker(npc.getSolidBox(), solidBox));
                 npc.changeDirection();
             }
         }
         for (Bullet bullet : bullets.getBullets()) {
-            if(npc.getSolidBox().overlaps(bullet.getSolidBox()) && !bullet.getFinish() && !npc.getDead()){
+            if (npc.getSolidBox().overlaps(bullet.getSolidBox())) {
                 npc.setDead(true);
                 bullet.setFinish(true);
             }
         }
     }
 
-    private void collisionNPCwithTile(NPC npc,Tile tile) {
-
-        if (npc.getY() <= tile.getY() + tile.getTileSize()-10 && npc.getY() + npc.getHeight() > tile.getY()+10) {
-            if (npc.getX() <= tile.getX() + tile.getTileSize() && npc.getX() > tile.getX()) {
-                npc.setDirectionBAN("left");
-                npc.setX(npc.getX()+2);
+    private String collisionChecker(Rectangle solidBox1, Rectangle solidBox2) {
+        String direction = "nothing";
+        if (solidBox1.getY() <= solidBox2.y + solidBox2.height - 10 && solidBox1.getY() + solidBox1.getHeight() > solidBox2.y + 10) {
+            if (solidBox1.getX() <= solidBox2.x + solidBox2.width && solidBox1.getX() > solidBox2.x) {
+                direction = "left";
             }
-            if (npc.getX() + npc.getWidth() >= tile.getX() && npc.getX() + npc.getWidth() < tile.getX() + tile.getTileSize()) {
-                npc.setDirectionBAN("right");
-                npc.setX(npc.getX()-2);
+            if (solidBox1.getX() + solidBox1.getWidth() >= solidBox2.x && solidBox1.getX() + solidBox1.getWidth() < solidBox2.x + solidBox2.width) {
+                direction = "right";
             }
         }
 
-        if (npc.getX() <= tile.getX() + tile.getTileSize()-10 && npc.getX() + npc.getWidth() > tile.getX()+10) {
-            if (npc.getY() <= tile.getY() + tile.getTileSize() && npc.getY() > tile.getY()) {
-                npc.setDirectionBAN("bottom");
-                npc.setY(npc.getY()+2);
+        if (solidBox1.getX() <= solidBox2.x + solidBox2.width - 10 && solidBox1.getX() + solidBox1.getWidth() > solidBox2.x + 10) {
+            if (solidBox1.getY() <= solidBox2.y + solidBox2.height && solidBox1.getY() > solidBox2.y) {
+                direction = "bottom";
             }
-            if (npc.getY() + npc.getHeight() >= tile.getY() && npc.getY() + npc.getHeight() < tile.getY() + tile.getTileSize()) {
-                npc.setDirectionBAN("top");
-                npc.setY(npc.getY()-2);
+            if (solidBox1.getY() + solidBox1.getHeight() >= solidBox2.y && solidBox1.getY() + solidBox1.getHeight() < solidBox2.y + solidBox2.height) {
+                direction = "top";
             }
         }
-    }
-    private void collisionNPCwithPlayer(NPC npc) {
-
-        if (npc.getY() <= keyH.getY() + player.getHeight()-10 && npc.getY() + npc.getHeight() > keyH.getY()+10) {
-            if (npc.getX() <= keyH.getX() + player.getWidth() && npc.getX() > keyH.getX()) {
-                npc.setDirectionBAN("left");
-            }
-            if (npc.getX() + npc.getWidth() >= keyH.getX() && npc.getX() + npc.getWidth() < keyH.getX() + player.getWidth()) {
-                npc.setDirectionBAN("right");
-            }
-        }
-
-        if (npc.getX() <= keyH.getX() + player.getWidth()-10 && npc.getX() + npc.getWidth() > keyH.getX()+10) {
-            if (npc.getY() <= keyH.getY() + player.getHeight() && npc.getY() > keyH.getY()) {
-                npc.setDirectionBAN("bottom");
-            }
-            if (npc.getY() + npc.getHeight() >= keyH.getY() && npc.getY() + npc.getHeight() < keyH.getY() + player.getHeight()) {
-                npc.setDirectionBAN("top");
-            }
-        }
+        return direction;
     }
 }

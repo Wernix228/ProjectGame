@@ -1,14 +1,12 @@
 package com.samsung.game.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.samsung.game.main.KeyHandler;
 
 public class Player extends Entity {
-
-    private int widthScreen = 32 * 35;
-    private int heightScreen = 32 * 20;
 
     public Player(KeyHandler keyH, String texture) {
         this.keyH = keyH;
@@ -28,11 +26,11 @@ public class Player extends Entity {
         batch.dispose();
         img.dispose();
     }
-    public boolean isVisible(){
-        return x > (keyH.getX() + getWidth() / 2) - widthScreen
-                && x < (keyH.getX() + getWidth() / 2) + widthScreen
-                && y > (keyH.getY() + getHeight() / 2) - heightScreen - 32
-                && y < (keyH.getY() + getHeight() / 2) + heightScreen;
+    public boolean isVisible(int x, int y){
+        return x > (keyH.getX() + getWidth() / 2) - Gdx.graphics.getWidth()/1.2f
+                && x < (keyH.getX() + getWidth() / 2) + Gdx.graphics.getWidth()/1.2f
+                && y > (keyH.getY() + getHeight() / 2) - Gdx.graphics.getHeight()/1.2f - height
+                && y < (keyH.getY() + getHeight() / 2) + Gdx.graphics.getHeight()/1.2f;
     }
 
     private void draw() {

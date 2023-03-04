@@ -14,13 +14,19 @@ import java.util.Scanner;
 public class Map extends Entity {
 
     private final Array<Tile> tiles = new Array<>();
+    private final TileManeger tileManeger;
 
     public Array<Tile> getTiles() {
         return tiles;
     }
 
+    public TileManeger getTileManeger() {
+        return tileManeger;
+    }
+
     public Map(String maps) {
         setMap(maps);
+        tileManeger = new TileManeger(this);
     }
 
     public void setMap(String maps) {
@@ -29,16 +35,11 @@ public class Map extends Entity {
     }
 
     public void render(Player player) {
-        for (Tile tile : tiles) {
-            tile.draw(player);
-//            tile.draw(100, 100, keyH, player);
-        }
+        tileManeger.render(player);
     }
 
     public void dispose() {
-        for (Tile tile : tiles) {
-            tile.dispose();
-        }
+        tileManeger.dispose();
     }
 
     private void loadLevel(String maps) {
@@ -61,16 +62,19 @@ public class Map extends Entity {
         arr = new Integer[nums.size()][columns];
         Iterator<String[]> iter = nums.iterator();
 
-
         for (int i = 0; i < arr.length; i++) {
             String[] s = iter.next();
             for (int j = 0; j < columns; j++) {
                 arr[i][j] = Integer.parseInt(s[j]);
 
-
-                Tile tile = new Tile(j, -i, arr[i][j]);
+                Tile tile = new Tile();
+                tile.x=j * tile.tileSize;
+                tile.y=-i * tile.tileSize;
+                tile.texture=arr[i][j];
+                if(arr[i][j]!=1 && arr[i][j]!=9){
+                    tile.isSolid=true;
+                }
                 tiles.add(tile);
-
             }
         }
     }
